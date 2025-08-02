@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     return user;
   }
 
-  // Kullanıcı rolünü almak için profilden oku
+  // Kullanıcı rolünü ve ismini almak
   async function getUserRole(user) {
     const { data, error } = await supabase
       .from('ogrenciler')
       .select('rol, ad, soyad')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     if (error) {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return data;
   }
 
-  // Kullanıcı adı göster
+  // Kullanıcı adını göster
   function showUserName(ad, soyad) {
     const el = document.getElementById('user-name');
     if (!ad || !soyad) {
@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Haftalık verileri getir (son 7 gün) - genel öğrenci için
+  // Haftalık verileri getir (son 7 gün) - öğrenci için
   async function fetchWeeklyData(user) {
     const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // Son 7 gün (bugün dahil)
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
     const isoDate = sevenDaysAgo.toISOString().split('T')[0];
 
     const { data, error } = await supabase
@@ -87,31 +87,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Dersler listesi
     const dersler = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din'];
 
-    // Toplam doğru ve yanlış
-    let toplamDogru = 0;
-    let toplamYanlis = 0;
-
-    // Her ders için toplam doğru ve yanlış
     const dersDogruToplam = {};
-    const dersYanlisToplam = {};
-
-    dersler.forEach(ders => {
-      dersDogruToplam[ders] = 0;
-      dersYanlisToplam[ders] = 0;
-    });
+    dersler.forEach(ders => dersDogruToplam[ders] = 0);
 
     data.forEach(gunluk => {
       dersler.forEach(ders => {
         dersDogruToplam[ders] += gunluk[`${ders}_dogru`] ?? 0;
+      });
+    });
+
+    const toplamDogru = Object.values(dersDogruToplam).reduce((a, b) => a + b, 0);
+
+    // Yanlış toplamını da hesapla
+    const dersYanlisToplam = {};
+    dersler.forEach(ders => dersYanlisToplam[ders] = 0);
+
+    data.forEach(gunluk => {
+      dersler.forEach(ders => {
         dersYanlisToplam[ders] += gunluk[`${ders}_yanlis`] ?? 0;
       });
     });
 
-    toplamDogru = Object.values(dersDogruToplam).reduce((a, b) => a + b, 0);
-    toplamYanlis = Object.values(dersYanlisToplam).reduce((a, b) => a + b, 0);
+    const toplamYanlis = Object.values(dersYanlisToplam).reduce((a, b) => a + b, 0);
 
     // En çok ve en az çalışılan dersler (doğru üzerinden)
     const enCokDers = Object.entries(dersDogruToplam).reduce((a, b) => (b[1] > a[1] ? b : a));
@@ -123,82 +122,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('en-az-ders').textContent = enAzDers[0].charAt(0).toUpperCase() + enAzDers[0].slice(1);
   }
 
-  // Grafik oluşturucu - Doğru (Bar)
+  // Grafik oluşturucu - Bar (Doğru)
   function createBarChart(ctx, labels, datasets) {
     return new Chart(ctx, {
       type: 'bar',
       data: { labels, datasets },
       options: {
         responsive: true,
-        plugins: {
-          legend: { labels: { color: '#2980b9' } }
-        },
+        plugins: { legend: { labels: { color: '#2980b9' } } },
         scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Doğru Sayısı', color: '#27ae60' },
-            ticks: { color: '#333' }
-          },
-          x: {
-            title: { display: true, text: 'Tarih', color: '#333' },
-            ticks: { color: '#333' }
-          }
+          y: { beginAtZero: true, title: { display: true, text: 'Doğru Sayısı', color: '#27ae60' }, ticks: { color: '#333' } },
+          x: { title: { display: true, text: 'Tarih', color: '#333' }, ticks: { color: '#333' } }
         }
       }
     });
   }
 
-  // Grafik oluşturucu - Yanlış (Line)
+  // Grafik oluşturucu - Line (Yanlış)
   function createLineChart(ctx, labels, datasets) {
     return new Chart(ctx, {
       type: 'line',
       data: { labels, datasets },
       options: {
         responsive: true,
-        plugins: {
-          legend: { labels: { color: '#e74c3c' } }
-        },
+        plugins: { legend: { labels: { color: '#e74c3c' } } },
         scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Yanlış Sayısı', color: '#e74c3c' },
-            ticks: { color: '#333' }
-          },
-          x: {
-            title: { display: true, text: 'Tarih', color: '#333' },
-            ticks: { color: '#333' }
-          }
+          y: { beginAtZero: true, title: { display: true, text: 'Yanlış Sayısı', color: '#e74c3c' }, ticks: { color: '#333' } },
+          x: { title: { display: true, text: 'Tarih', color: '#333' }, ticks: { color: '#333' } }
         }
       }
     });
   }
 
-  // Grafikleri renderla (öğrenci için)
+  // Öğrenci için grafik çiz
   async function renderCharts(user) {
     const data = await fetchWeeklyData(user);
     if (!data.length) return;
 
-    // Haftalık özet güncelle
     updateWeeklySummary(data);
 
     const labels = data.map(d => new Date(d.tarih).toLocaleDateString('tr-TR'));
-
     const dersler = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din'];
 
     const dogruDatasets = dersler.map((ders, i) => ({
       label: ders.charAt(0).toUpperCase() + ders.slice(1),
       data: data.map(d => d[`${ders}_dogru`] ?? 0),
-      backgroundColor: [
-        '#27ae60', '#2ecc71', '#1abc9c', '#16a085', '#3498db', '#2980b9'
-      ][i],
+      backgroundColor: ['#27ae60', '#2ecc71', '#1abc9c', '#16a085', '#3498db', '#2980b9'][i],
     }));
 
     const yanlisDatasets = dersler.map((ders, i) => ({
       label: ders.charAt(0).toUpperCase() + ders.slice(1),
       data: data.map(d => d[`${ders}_yanlis`] ?? 0),
-      borderColor: [
-        '#e74c3c', '#c0392b', '#e67e22', '#d35400', '#e74c3c', '#c0392b'
-      ][i],
+      borderColor: ['#e74c3c', '#c0392b', '#e67e22', '#d35400', '#e74c3c', '#c0392b'][i],
       backgroundColor: 'rgba(231, 76, 60, 0.3)',
       fill: true,
       tension: 0.3,
@@ -215,7 +190,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.yanlisChart = createLineChart(yanlisCtx, labels, yanlisDatasets);
   }
 
-  // Öğrenci için form verisini kaydet
+  // Formdaki input değerini al (sayı)
+  function getInputValue(id) {
+    const input = document.getElementById(id);
+    if (!input) {
+      console.warn('Input bulunamadı: ' + id);
+      return 0;
+    }
+    return parseInt(input.value, 10) || 0;
+  }
+
+  // Öğrenci günlük verisini kaydet
   async function saveDailyData(user) {
     const form = document.getElementById('daily-form');
     if (!form) {
@@ -242,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         din_yanlis: getInputValue('din-yanlis'),
       };
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('gunluk_cozum')
         .upsert(dataToInsert, { onConflict: ['user_id', 'tarih'] });
 
@@ -255,22 +240,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Güvenli input değeri alma
-  function getInputValue(id) {
-    const input = document.getElementById(id);
-    if (!input) {
-      console.warn('Input bulunamadı: ' + id);
-      return 0;
-    }
-    return parseInt(input.value, 10) || 0;
-  }
-
-  // Koç paneli için öğrencileri çek
+  // Koç paneli için öğrenci listesini al
   async function fetchOgrenciler() {
     const { data, error } = await supabase
       .from('ogrenciler')
       .select('user_id, ad, soyad')
       .order('ad', { ascending: true });
+
     if (error) {
       console.error('Öğrenci listesi alınamadı:', error);
       return [];
@@ -278,7 +254,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return data;
   }
 
-  // Koç paneli için seçilen öğrenci verilerini çek ve grafik çiz
+  // Koç paneli için seçilen öğrencinin verilerini çek ve grafik çiz
   async function handleOgrenciSecim(user_id) {
     if (!user_id) {
       if (window.kocDogruChart) window.kocDogruChart.destroy();
@@ -295,7 +271,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Haftalık özet güncelle (koç paneli için seçilen öğrenciye)
     updateWeeklySummary(data);
 
     const labels = data.map(d => new Date(d.tarih).toLocaleDateString('tr-TR'));
@@ -304,17 +279,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dogruDatasets = dersler.map((ders, i) => ({
       label: ders.charAt(0).toUpperCase() + ders.slice(1),
       data: data.map(d => d[`${ders}_dogru`] ?? 0),
-      backgroundColor: [
-        '#27ae60', '#2ecc71', '#1abc9c', '#16a085', '#3498db', '#2980b9'
-      ][i],
+      backgroundColor: ['#27ae60', '#2ecc71', '#1abc9c', '#16a085', '#3498db', '#2980b9'][i],
     }));
 
     const yanlisDatasets = dersler.map((ders, i) => ({
       label: ders.charAt(0).toUpperCase() + ders.slice(1),
       data: data.map(d => d[`${ders}_yanlis`] ?? 0),
-      borderColor: [
-        '#e74c3c', '#c0392b', '#e67e22', '#d35400', '#e74c3c', '#c0392b'
-      ][i],
+      borderColor: ['#e74c3c', '#c0392b', '#e67e22', '#d35400', '#e74c3c', '#c0392b'][i],
       backgroundColor: 'rgba(231, 76, 60, 0.3)',
       fill: true,
       tension: 0.3,
@@ -339,7 +310,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   showUserName(userInfo.ad, userInfo.soyad);
 
   if (userInfo.rol === 'koc') {
-    // Koç panelini aç
     document.getElementById('koc-panel').style.display = 'block';
 
     const ogrenciSelect = document.getElementById('ogrenci-secim');
@@ -355,8 +325,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     ogrenciSelect.addEventListener('change', (e) => {
       handleOgrenciSecim(e.target.value);
     });
+
   } else {
-    // Öğrenci ise kendi grafiklerini göster ve haftalık özetini güncelle
     const data = await fetchWeeklyData(user);
     updateWeeklySummary(data);
     await renderCharts(user);

@@ -56,7 +56,7 @@ async function loadUsers() {
   data.forEach(user => {
     const option = document.createElement('option');
     option.value = user.id;
-    option.textContent = `${user.ad || ''} ${user.soyad || ''} (${user.rol || 'bilinmiyor'})`.trim();
+    option.textContent = ${user.ad || ''} ${user.soyad || ''} (${user.rol || 'bilinmiyor'}).trim();
     aliciSelect.appendChild(option);
   });
 }
@@ -68,7 +68,7 @@ async function loadMessages() {
     .from('messages')
     .select('*')
     .or(
-      `and(sender_id.eq.${currentUser.id},recipient_id.eq.${selectedRecipientId}),and(sender_id.eq.${selectedRecipientId},recipient_id.eq.${currentUser.id})`
+      and(sender_id.eq.${currentUser.id},recipient_id.eq.${selectedRecipientId}),and(sender_id.eq.${selectedRecipientId},recipient_id.eq.${currentUser.id})
     )
     .order('created_at', { ascending: true });
 
@@ -127,7 +127,7 @@ function addMessageToList(mesaj) {
   div.style.marginBottom = '8px';
   const isCurrentUserSender = mesaj.sender_id === currentUser.id;
   div.style.textAlign = isCurrentUserSender ? 'right' : 'left';
-  div.innerHTML = `
+  div.innerHTML = 
     <span style="display:inline-block; padding:6px 12px; border-radius:12px; background-color:${isCurrentUserSender ? '#2980b9' : '#bdc3c7'}; color:#fff; max-width: 70%; word-wrap: break-word;">
       ${mesaj.message}
     </span>
@@ -135,7 +135,7 @@ function addMessageToList(mesaj) {
     <small style="color:#999; font-size:0.75rem;">
       ${new Date(mesaj.created_at).toLocaleString()}
     </small>
-  `;
+  ;
   mesajListesi.appendChild(div);
 }
 
