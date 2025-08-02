@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Öğrenci Koçluğu Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page">
+  <div class="container">
+    <div class="header">
+      <div class="user-info">
+        <img src="https://ui-avatars.com/api/?name=Baran+Gürbüz&background=2980b9&color=fff&rounded=true" alt="Kullanıcı Avatar" class="avatar" />
+        <h1>Hoşgeldiniz, <span id="user-name">Öğrenci</span></h1>
+      </div>
+      <button id="logout-btn" class="logout-btn">Çıkış Yap</button>
+    </div>
+
+    <div class="card">
+      <h2>Bugünkü Çözümleriniz</h2>
+      <form id="daily-form">
+        <label for="turkce-dogru">
+          Türkçe Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru Türkçe sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="turkce-dogru" name="turkce-dogru" min="0" />
+
+        <label for="turkce-yanlis">
+          Türkçe Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış Türkçe sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="turkce-yanlis" name="turkce-yanlis" min="0" />
+
+        <label for="matematik-dogru">
+          Matematik Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru Matematik sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="matematik-dogru" name="matematik-dogru" min="0" />
+
+        <label for="matematik-yanlis">
+          Matematik Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış Matematik sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="matematik-yanlis" name="matematik-yanlis" min="0" />
+
+        <label for="fen-dogru">
+          Fen Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru Fen sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="fen-dogru" name="fen-dogru" min="0" />
+
+        <label for="fen-yanlis">
+          Fen Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış Fen sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="fen-yanlis" name="fen-yanlis" min="0" />
+
+        <label for="sosyal-dogru">
+          Sosyal Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru Sosyal Bilgiler sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="sosyal-dogru" name="sosyal-dogru" min="0" />
+
+        <label for="sosyal-yanlis">
+          Sosyal Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış Sosyal Bilgiler sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="sosyal-yanlis" name="sosyal-yanlis" min="0" />
+
+        <label for="ingilizce-dogru">
+          İngilizce Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru İngilizce sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="ingilizce-dogru" name="ingilizce-dogru" min="0" />
+
+        <label for="ingilizce-yanlis">
+          İngilizce Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış İngilizce sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="ingilizce-yanlis" name="ingilizce-yanlis" min="0" />
+
+        <label for="din-dogru">
+          Din Kültürü Doğru
+          <span class="tooltip" aria-label="Bugün çözdüğünüz doğru Din Kültürü sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="din-dogru" name="din-dogru" min="0" />
+
+        <label for="din-yanlis">
+          Din Kültürü Yanlış
+          <span class="tooltip" aria-label="Bugün çözdüğünüz yanlış Din Kültürü sorularının sayısı.">❓</span>
+        </label>
+        <input type="number" id="din-yanlis" name="din-yanlis" min="0" />
+
+        <button type="submit">Kaydet</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Doğru Sayıları</h2>
+      <canvas id="dogruChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Yanlış Sayıları</h2>
+      <canvas id="yanlisChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Baran Gürbüz | Öğrenci Koçluğu Web Sitesi
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="./dashboard.js"></script>
+<script type="module" src="./messages.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+/* ===== Genel Reset ve Temel Ayarlar ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* ===== Giriş / Kayıt Sayfası ===== */
+body.auth-page {
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  color: #fff;
+}
+
+body.auth-page .container {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  max-width: 420px;
+  width: 100%;
+}
+
+body.auth-page h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 700;
+  font-size: 28px;
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+body.auth-page form input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #f0f0f0;
+  font-size: 14px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.auth-page form input::placeholder {
+  color: #d1d9ff;
+}
+
+body.auth-page form input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px #a5b8ff;
+  outline: none;
+}
+
+body.auth-page form button {
+  width: 100%;
+  padding: 14px 0;
+  background-color: #00c6ff;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+body.auth-page form button:hover {
+  background-color: #0094cc;
+}
+
+body.auth-page form button::after {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.5s ease;
+  transform: skewX(-20deg);
+  z-index: 1;
+}
+
+body.auth-page form button:hover::after {
+  left: 100%;
+}
+
+body.auth-page .link {
+  margin-top: 14px;
+  font-size: 14px;
+  text-align: center;
+  color: #a8c4ff;
+}
+
+body.auth-page .link a {
+  color: #00c6ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+body.auth-page .link a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Dashboard Sayfası ===== */
+body.dashboard-page {
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  padding: 40px 15px 60px;
+  color: #333;
+}
+
+.container {
+  width: 100%;
+  max-width: 700px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  color: #2980b9;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  color: #2980b9;
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 16px;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+form input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+form input[type="number"]:focus {
+  border-color: #2980b9;
+  outline: none;
+}
+
+form button[type="submit"] {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px 0;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #3498db;
+}
+
+canvas {
+  max-width: 100%;
+  height: 180px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 14px;
+  color: #888;
+  margin-top: auto;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  body.auth-page {
+    padding: 15px;
+  }
+
+  body.auth-page .container {
+    padding: 30px 20px;
+  }
+
+  body.dashboard-page {
+    padding: 15px;
+  }
+
+  body.dashboard-page .container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  body.auth-page h2,
+  body.dashboard-page h1,
+  body.dashboard-page h2 {
+    font-size: 18px;
+  }
+  body.auth-page input,
+  body.auth-page button {
+    font-size: 13px;
+  }
+}
