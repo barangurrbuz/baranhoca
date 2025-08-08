@@ -262,26 +262,33 @@
     
     /* Goals Tab Specific Styles */
     #goals.tab-content {
-      display: none;
+      display: none !important;
       width: 100%;
       min-height: 500px;
       background: transparent;
-      padding: 0;
+      padding: 1rem 0;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     
     #goals.tab-content.active {
-      display: block;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
     
     .goals-dashboard {
-      display: flex;
+      display: flex !important;
       flex-direction: column;
       gap: 2rem;
       background: var(--card-bg);
       border-radius: 16px;
       padding: 2rem;
       box-shadow: var(--shadow);
-      margin-top: 20px;
+      margin: 20px auto;
+      max-width: 1200px;
+      width: 100%;
     }
     
     /* Ensure all sections inside goals are visible */
@@ -5679,46 +5686,47 @@
           const tabId = this.getAttribute('data-tab');
           console.log('Tab clicked:', tabId);
           
-          // Hide all tab contents and remove active class
-          tabContents.forEach(content => {
-            content.classList.remove('active');
-          });
+          // Remove active class from all buttons and tab contents
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
           
-          // Remove active class from all buttons
-          tabButtons.forEach(btn => {
-            btn.classList.remove('active');
-          });
-          
-          // Show the selected tab content
-          const selectedTab = document.getElementById(tabId);
-          if (selectedTab) {
-            selectedTab.classList.add('active');
-            console.log('Showing tab:', tabId);
-          } else {
-            console.error('Tab content not found:', tabId);
-          }
-          
-          // Add active class to the clicked button
+          // Add active class to clicked button
           this.classList.add('active');
+          
+          // Show the selected tab content with a small delay to ensure DOM updates
+          setTimeout(() => {
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+              selectedTab.classList.add('active');
+              console.log('Showing tab:', tabId);
+              
+              // Force reflow to ensure transition works
+              void selectedTab.offsetWidth;
+              
+            } else {
+              console.error('Tab content not found:', tabId);
+            }
+          }, 10);
         });
       });
       
-      // Initialize tabs
+      // Initialize tabs - ensure all tabs are properly hidden/shown on load
       function initializeTabs() {
         console.log('Initializing tabs...');
-        // Hide all tab contents except the active one
         tabContents.forEach((content, index) => {
           if (!content.classList.contains('active')) {
             content.style.display = 'none';
           } else {
             content.style.display = 'block';
+            content.style.opacity = '1';
+            content.style.visibility = 'visible';
             console.log('Active tab found:', content.id);
           }
         });
       }
       
-      // Run initialization
-      initializeTabs();
+      // Run initialization with a small delay to ensure all elements are loaded
+      setTimeout(initializeTabs, 100);
     });
   </script>
 </body>
