@@ -2922,6 +2922,21 @@
       color: #7f8c8d;
     }
 
+    /* Tab Content Styles */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .study-dashboard {
