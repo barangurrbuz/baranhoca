@@ -14,22 +14,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Kullanıcı rolünü ve ismini almak
   async function getUserRole(user) {
-    console.log('Kullanıcı ID:', user.id); // Debug için
-    
-    const { data, error } = await supabase
-      .from('ogrenciler')
-      .select('rol, ad, soyad')
-      .eq('user_id', user.id)
-      .single();
+    try {
+      console.log('Kullanıcı ID:', user.id);
+      
+      // Önce kullanıcının var olup olmadığını kontrol et
+      const { data: allUsers, error: listError } = await supabase
+        .from('ogrenciler')
+        .select('user_id, rol, ad, soyad')
+        .limit(5);
+      
+      if (listError) {
+        console.error('Tablo erişim hatası:', listError);
+      } else {
+        console.log('Tablodaki ilk 5 kullanıcı:', allUsers);
+      }
+      
+      // Şimdi kendi kullanıcıyı ara
+      const { data, error } = await supabase
+        .from('ogrenciler')
+        .select('rol, ad, soyad')
+        .eq('user_id', user.id)
+        .single();
 
-    if (error) {
-      console.error('Veritabanı hatası:', error);
-      console.warn('Rol veya kullanıcı bilgisi alınamadı, varsayılan öğrenci rolü atanıyor.');
-      return { rol: 'ogrenci', ad: null, soyad: null };
+      if (error) {
+        console.error('Kullanıcı sorgu hatası:', error);
+        console.log('Hata kodu:', error.code);
+        console.log('Hata mesajı:', error.message);
+        
+        // Eğer kullanıcı bulunamazsa, varsayılan değerler döndür
+        return { rol: 'ogrenci', ad: 'Kullanıcı', soyad: '' };
+      }
+      
+      console.log('Kullanıcı bilgileri başarıyla alındı:', data);
+      return data;
+      
+    } catch (err) {
+      console.error('Beklenmeyen hata:', err);
+      return { rol: 'ogrenci', ad: 'Kullanıcı', soyad: '' };
     }
-    
-    console.log('Kullanıcı bilgileri başarıyla alındı:', data); // Debug için
-    return data;
   }
 
   // Kullanıcı adını göster
