@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Kullanıcı rolünü ve ismini almak
   async function getUserRole(user) {
+    console.log('Kullanıcı ID:', user.id); // Debug için
+    
     const { data, error } = await supabase
       .from('ogrenciler')
       .select('rol, ad, soyad')
@@ -21,9 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       .single();
 
     if (error) {
+      console.error('Veritabanı hatası:', error);
       console.warn('Rol veya kullanıcı bilgisi alınamadı, varsayılan öğrenci rolü atanıyor.');
       return { rol: 'ogrenci', ad: null, soyad: null };
     }
+    
+    console.log('Kullanıcı bilgileri başarıyla alındı:', data); // Debug için
     return data;
   }
 
