@@ -245,23 +245,56 @@
     }
     
     /* Remove any conflicting inline styles from the goals tab */
+    /* Tab Content Base Styles */
+    .tab-content {
+      display: none;
+      width: 100%;
+      min-height: 500px;
+      padding: 20px 0;
+      position: relative;
+      background: transparent;
+      z-index: 1;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Goals Tab Specific Styles */
     #goals.tab-content {
-      display: none !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      background: var(--card-bg) !important;
-      padding: 2rem !important;
-      min-height: 500px !important;
-      border: none !important;
-      position: relative !important;
-      top: auto !important;
-      left: auto !important;
-      width: 100% !important;
-      z-index: 1 !important;
+      display: none;
+      width: 100%;
+      min-height: 500px;
+      background: transparent;
+      padding: 0;
     }
     
     #goals.tab-content.active {
-      display: block !important;
+      display: block;
+    }
+    
+    .goals-dashboard {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-top: 20px;
+    }
+    
+    /* Ensure all sections inside goals are visible */
+    .lgs-target-section,
+    .study-plan-section,
+    .motivation-section,
+    .study-schedule-section,
+    .progress-tracking-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     @keyframes fadeInUp {
@@ -3036,7 +3069,7 @@
     </div>
   </header>
 
-  <div class="main-container" style="border: 5px solid green !important; background: yellow !important; min-height: 800px !important; padding: 20px !important;">
+  <div class="main-container">
     <!-- Tab Navigation -->
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="dashboard"><span>🏠 Ana Sayfa</span></button>
@@ -5613,23 +5646,35 @@
   <!-- Tab Switching JavaScript -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('🔍 Tab switcher initialized');
+      
       // Tab switching functionality
       const tabButtons = document.querySelectorAll('.tab-btn');
       const tabContents = document.querySelectorAll('.tab-content');
+      
+      // Debug: Log all tabs and buttons
+      console.log('Found tab buttons:', tabButtons.length);
+      console.log('Found tab contents:', tabContents.length);
 
-      // Show the first tab by default
-      if (tabContents.length > 0) {
-        tabContents[0].style.display = 'block';
+      // Show the first tab by default if none is active
+      const activeTabs = document.querySelectorAll('.tab-content.active');
+      if (activeTabs.length === 0 && tabContents.length > 0) {
+        tabContents[0].classList.add('active');
+        tabButtons[0].classList.add('active');
+        console.log('Activated first tab by default');
       }
 
       // Add click event listeners to tab buttons
       tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const tabId = this.getAttribute('data-tab');
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
           
-          // Hide all tab contents
+          const tabId = this.getAttribute('data-tab');
+          console.log('Tab clicked:', tabId);
+          
+          // Hide all tab contents and remove active class
           tabContents.forEach(content => {
-            content.style.display = 'none';
+            content.classList.remove('active');
           });
           
           // Remove active class from all buttons
@@ -5640,13 +5685,33 @@
           // Show the selected tab content
           const selectedTab = document.getElementById(tabId);
           if (selectedTab) {
-            selectedTab.style.display = 'block';
+            selectedTab.classList.add('active');
+            console.log('Showing tab:', tabId);
+          } else {
+            console.error('Tab content not found:', tabId);
           }
           
           // Add active class to the clicked button
           this.classList.add('active');
         });
       });
+      
+      // Initialize tabs
+      function initializeTabs() {
+        console.log('Initializing tabs...');
+        // Hide all tab contents except the active one
+        tabContents.forEach((content, index) => {
+          if (!content.classList.contains('active')) {
+            content.style.display = 'none';
+          } else {
+            content.style.display = 'block';
+            console.log('Active tab found:', content.id);
+          }
+        });
+      }
+      
+      // Run initialization
+      initializeTabs();
     });
   </script>
 </body>
