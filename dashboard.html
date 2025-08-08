@@ -233,11 +233,35 @@
     /* Tab Content */
     .tab-content {
       display: none;
-      animation: fadeInUp 0.6s ease-out;
+      padding: 20px 0;
+      width: 100%;
+      min-height: 500px;
+      position: relative;
+      background: transparent;
+      z-index: 1;
     }
-
     .tab-content.active {
       display: block;
+    }
+    
+    /* Remove any conflicting inline styles from the goals tab */
+    #goals.tab-content {
+      display: none !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: var(--card-bg) !important;
+      padding: 2rem !important;
+      min-height: 500px !important;
+      border: none !important;
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      width: 100% !important;
+      z-index: 1 !important;
+    }
+    
+    #goals.tab-content.active {
+      display: block !important;
     }
 
     @keyframes fadeInUp {
@@ -3962,7 +3986,7 @@
     </div>
 
     <!-- Goals Tab - MOVED OUTSIDE FOR TESTING -->
-    <div id="goals" class="tab-content" style="display: block !important; visibility: visible !important; opacity: 1 !important; background: white !important; padding: 2rem !important; min-height: 600px !important; border: 2px solid blue !important; position: fixed !important; top: 100px !important; left: 50px !important; width: 80% !important; z-index: 10000 !important;">
+    <div id="goals" class="tab-content">
       <div class="goals-dashboard">
         
         <!-- LGS Target Score Section -->
@@ -5584,6 +5608,46 @@
       }
     `;
     document.head.appendChild(timerStyle);
+  </script>
+  
+  <!-- Tab Switching JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      // Show the first tab by default
+      if (tabContents.length > 0) {
+        tabContents[0].style.display = 'block';
+      }
+
+      // Add click event listeners to tab buttons
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const tabId = this.getAttribute('data-tab');
+          
+          // Hide all tab contents
+          tabContents.forEach(content => {
+            content.style.display = 'none';
+          });
+          
+          // Remove active class from all buttons
+          tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+          });
+          
+          // Show the selected tab content
+          const selectedTab = document.getElementById(tabId);
+          if (selectedTab) {
+            selectedTab.style.display = 'block';
+          }
+          
+          // Add active class to the clicked button
+          this.classList.add('active');
+        });
+      });
+    });
   </script>
 </body>
 </html>
