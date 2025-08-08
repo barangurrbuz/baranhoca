@@ -4913,6 +4913,48 @@
     </div>
   </div>
 
+  <!-- Debug Script -->
+  <script>
+    console.log('🔍 DEBUG: Script yükleniyor...');
+    
+    // Tab functionality - Basit versiyon
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🔍 DEBUG: DOM hazır!');
+      
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      console.log('🔍 DEBUG: Tab butonları:', tabBtns.length);
+      console.log('🔍 DEBUG: Tab içerikleri:', tabContents.length);
+
+      tabBtns.forEach((btn, index) => {
+        console.log(`🔍 DEBUG: Tab ${index}:`, btn.getAttribute('data-tab'));
+        
+        btn.addEventListener('click', (e) => {
+          console.log('🔍 DEBUG: Tab tıklandı:', btn.getAttribute('data-tab'));
+          
+          const targetTab = btn.getAttribute('data-tab');
+          
+          // Remove active class from all tabs
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          btn.classList.add('active');
+          const targetElement = document.getElementById(targetTab);
+          if (targetElement) {
+            targetElement.classList.add('active');
+            console.log('🔍 DEBUG: Tab aktif edildi:', targetTab);
+          } else {
+            console.error('🔍 DEBUG: Tab bulunamadı:', targetTab);
+          }
+        });
+      });
+      
+      console.log('🔍 DEBUG: Tab sistemi kuruldu!');
+    });
+  </script>
+
   <script type="module" src="./dashboard.js"></script>
   <script type="module" src="./messages.js"></script>
   <script type="module" src="./gamification.js"></script>
