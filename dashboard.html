@@ -2761,6 +2761,9 @@
   <script type="module" src="./gamification.js"></script>
   <script type="module" src="./study-plan.js"></script>
   <script type="module">
+    // Import supabase
+    import { supabase } from './supabase.js';
+    
     // Import gamification functions
     import { loadGamificationData, updatePoints, updateStreak, unlockBadge, updateDailyChallenges } from './gamification.js';
     
