@@ -1923,237 +1923,446 @@
 
     <!-- Study Tab -->
     <div id="study" class="tab-content">
-      <!-- Weekly Study Plan -->
-      <div class="card">
-        <h2>📅 Haftalık Çalışma Planı</h2>
-        <div class="weekly-plan">
-          <div class="plan-header">
-            <button class="plan-nav-btn" onclick="previousWeek()">◀️</button>
-            <h3>Bu Hafta (8-14 Ağustos)</h3>
-            <button class="plan-nav-btn" onclick="nextWeek()">▶️</button>
+      <div class="study-dashboard">
+        <!-- Study Timer Section -->
+        <div class="study-timer-section">
+          <div class="timer-card">
+            <div class="timer-header">
+              <h2>⏱️ Çalışma Zamanlayıcısı</h2>
+              <div class="timer-mode">
+                <button class="mode-btn active" data-mode="study">📚 Çalışma</button>
+                <button class="mode-btn" data-mode="break">☕ Mola</button>
+                <button class="mode-btn" data-mode="pomodoro">🍅 Pomodoro</button>
+              </div>
+            </div>
+            <div class="timer-display">
+              <div class="time-circle">
+                <svg class="progress-ring" width="200" height="200">
+                  <circle class="progress-ring-circle" cx="100" cy="100" r="90"></circle>
+                </svg>
+                <div class="time-text">
+                  <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
+                </div>
+              </div>
+            </div>
+            <div class="timer-controls">
+              <button id="start-timer" class="timer-btn primary">▶️ Başlat</button>
+              <button id="pause-timer" class="timer-btn secondary" disabled>⏸️ Duraklat</button>
+              <button id="reset-timer" class="timer-btn tertiary">🔄 Sıfırla</button>
+            </div>
+            <div class="current-subject">
+              <label for="study-subject">📖 Çalıştığın Konu:</label>
+              <select id="study-subject">
+                <option value="">Konu Seç</option>
+                <option value="matematik">🔢 Matematik</option>
+                <option value="turkce">📚 Türkçe</option>
+                <option value="fen">🔬 Fen Bilimleri</option>
+                <option value="sosyal">🌍 Sosyal Bilgiler</option>
+                <option value="ingilizce">🇬🇧 İngilizce</option>
+                <option value="din">🕌 Din Kültürü</option>
+              </select>
+            </div>
+
+        <!-- Today's Study Stats -->
+        <div class="today-stats-section">
+          <div class="stats-header">
+            <h2>📊 Bugünkü Çalışma İstatistiklerin</h2>
+            <div class="date-display">📅 <span id="current-date"></span></div>
           </div>
-          <div class="week-grid">
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Pazartesi</span>
-                <span class="day-date">8 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">Matematik - 30 soru</span>
-                </div>
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">Türkçe - 25 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Fen - 20 soru</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 67%"></div>
-                </div>
-                <span class="progress-text">2/3 tamamlandı</span>
+          <div class="today-stats-grid">
+            <div class="stat-card study-time">
+              <div class="stat-icon">⏰</div>
+              <div class="stat-content">
+                <div class="stat-number" id="total-study-time">0</div>
+                <div class="stat-label">Dakika Çalıştın</div>
               </div>
             </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Salı</span>
-                <span class="day-date">9 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">Sosyal - 20 soru</span>
-                </div>
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">İngilizce - 15 soru</span>
-                </div>
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">Din - 10 soru</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 100%"></div>
-                </div>
-                <span class="progress-text">3/3 tamamlandı</span>
+            <div class="stat-card sessions">
+              <div class="stat-icon">📚</div>
+              <div class="stat-content">
+                <div class="stat-number" id="study-sessions">0</div>
+                <div class="stat-label">Çalışma Seansı</div>
               </div>
             </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Çarşamba</span>
-                <span class="day-date">10 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task completed">
-                  <span class="task-icon">✅</span>
-                  <span class="task-text">Matematik - 35 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Fen - 25 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Türkçe - 20 soru</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 33%"></div>
-                </div>
-                <span class="progress-text">1/3 tamamlandı</span>
+            <div class="stat-card focus-score">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <div class="stat-number" id="focus-score">0%</div>
+                <div class="stat-label">Odaklanma Skoru</div>
               </div>
             </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Perşembe</span>
-                <span class="day-date">11 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Sosyal - 30 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">İngilizce - 20 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Din - 15 soru</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <span class="progress-text">0/3 tamamlandı</span>
-              </div>
-            </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Cuma</span>
-                <span class="day-date">12 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Matematik - 40 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Fen - 30 soru</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Türkçe - 25 soru</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <span class="progress-text">0/3 tamamlandı</span>
-              </div>
-            </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Cumartesi</span>
-                <span class="day-date">13 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Genel Tekrar</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Test Çözümü</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Eksik Konular</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <span class="progress-text">0/3 tamamlandı</span>
-              </div>
-            </div>
-
-            <div class="day-card">
-              <div class="day-header">
-                <span class="day-name">Pazar</span>
-                <span class="day-date">14 Ağu</span>
-              </div>
-              <div class="day-tasks">
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Dinlenme</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Haftalık Özet</span>
-                </div>
-                <div class="task pending">
-                  <span class="task-icon">⏳</span>
-                  <span class="task-text">Gelecek Plan</span>
-                </div>
-              </div>
-              <div class="day-progress">
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <span class="progress-text">0/3 tamamlandı</span>
+            <div class="stat-card streak">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-content">
+                <div class="stat-number" id="study-streak">12</div>
+                <div class="stat-label">Günlük Seri</div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Study Timer -->
-      <div class="card">
-        <h2>⏱️ Çalışma Zamanlayıcısı</h2>
-        <div class="timer-container">
-          <div class="timer-display">
-            <div class="timer-time">25:00</div>
-            <div class="timer-label">Pomodoro Süresi</div>
-          </div>
-          <div class="timer-controls">
-            <button class="timer-btn start" onclick="startTimer()">▶️ Başlat</button>
-            <button class="timer-btn pause" onclick="pauseTimer()" disabled>⏸️ Duraklat</button>
-            <button class="timer-btn reset" onclick="resetTimer()">🔄 Sıfırla</button>
-          </div>
-          <div class="timer-settings">
-            <div class="setting-item">
-              <label>Çalışma Süresi (dk):</label>
-              <input type="number" id="workTime" value="25" min="5" max="60">
+        <!-- Subject Progress Section -->
+        <div class="subject-progress-section">
+          <h2>📈 Ders Bazlı İlerleme</h2>
+          <div class="subjects-progress-grid">
+            <div class="subject-progress-card" data-subject="matematik">
+              <div class="subject-header">
+                <div class="subject-icon">🔢</div>
+                <div class="subject-info">
+                  <h3>Matematik</h3>
+                  <div class="subject-level">Seviye 7</div>
+                </div>
+                <div class="subject-time">2.5 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>15/20 Konu</span>
+                  <span>75%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ Kesirler</div>
+                <div class="topic in-progress">⏳ Ondalık Sayılar</div>
+                <div class="topic locked">🔒 Yüzdeler</div>
+              </div>
             </div>
-            <div class="setting-item">
-              <label>Mola Süresi (dk):</label>
-              <input type="number" id="breakTime" value="5" min="1" max="30">
+
+            <div class="subject-progress-card" data-subject="turkce">
+              <div class="subject-header">
+                <div class="subject-icon">📚</div>
+                <div class="subject-info">
+                  <h3>Türkçe</h3>
+                  <div class="subject-level">Seviye 6</div>
+                </div>
+                <div class="subject-time">1.8 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 65%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>13/20 Konu</span>
+                  <span>65%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ Sözcük Türleri</div>
+                <div class="topic in-progress">⏳ Cümle Ögeleri</div>
+                <div class="topic locked">🔒 Anlatım Bozuklukları</div>
+              </div>
             </div>
-            <div class="setting-item">
-              <label>Uzun Mola (dk):</label>
-              <input type="number" id="longBreakTime" value="15" min="5" max="60">
+
+            <div class="subject-progress-card" data-subject="fen">
+              <div class="subject-header">
+                <div class="subject-icon">🔬</div>
+                <div class="subject-info">
+                  <h3>Fen Bilimleri</h3>
+                  <div class="subject-level">Seviye 8</div>
+                </div>
+                <div class="subject-time">3.2 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>17/20 Konu</span>
+                  <span>85%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ Hücre</div>
+                <div class="topic completed">✅ Madde ve Değişim</div>
+                <div class="topic in-progress">⏳ Kuvvet ve Hareket</div>
+              </div>
+            </div>
+
+            <div class="subject-progress-card" data-subject="sosyal">
+              <div class="subject-header">
+                <div class="subject-icon">🌍</div>
+                <div class="subject-info">
+                  <h3>Sosyal Bilgiler</h3>
+                  <div class="subject-level">Seviye 5</div>
+                </div>
+                <div class="subject-time">1.2 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 55%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>11/20 Konu</span>
+                  <span>55%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ Türkiye'nin Konumu</div>
+                <div class="topic in-progress">⏳ İklim Özellikleri</div>
+                <div class="topic locked">🔒 Nüfus ve Yerleşme</div>
+              </div>
+            </div>
+
+            <div class="subject-progress-card" data-subject="ingilizce">
+              <div class="subject-header">
+                <div class="subject-icon">🇬🇧</div>
+                <div class="subject-info">
+                  <h3>İngilizce</h3>
+                  <div class="subject-level">Seviye 7</div>
+                </div>
+                <div class="subject-time">2.1 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 70%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>14/20 Konu</span>
+                  <span>70%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ Present Tense</div>
+                <div class="topic in-progress">⏳ Past Tense</div>
+                <div class="topic locked">🔒 Future Tense</div>
+              </div>
+            </div>
+
+            <div class="subject-progress-card" data-subject="din">
+              <div class="subject-header">
+                <div class="subject-icon">🕌</div>
+                <div class="subject-info">
+                  <h3>Din Kültürü</h3>
+                  <div class="subject-level">Seviye 6</div>
+                </div>
+                <div class="subject-time">1.5 saat</div>
+              </div>
+              <div class="progress-details">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 60%"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>12/20 Konu</span>
+                  <span>60%</span>
+                </div>
+              </div>
+              <div class="recent-topics">
+                <div class="topic completed">✅ İbadetler</div>
+                <div class="topic in-progress">⏳ Ahlak</div>
+                <div class="topic locked">🔒 Peygamberler</div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Daily Goals Section -->
+        <div class="daily-goals-section">
+          <h2>🎯 Günlük Hedefler</h2>
+          <div class="goals-grid">
+            <div class="goal-card study-time-goal">
+              <div class="goal-header">
+                <div class="goal-icon">⏰</div>
+                <h3>Çalışma Süresi</h3>
+              </div>
+              <div class="goal-progress">
+                <div class="goal-circle">
+                  <svg width="80" height="80">
+                    <circle cx="40" cy="40" r="35" class="goal-bg"></circle>
+                    <circle cx="40" cy="40" r="35" class="goal-progress-circle" style="stroke-dasharray: 220; stroke-dashoffset: 66;"></circle>
+                  </svg>
+                  <div class="goal-percentage">70%</div>
+                </div>
+                <div class="goal-details">
+                  <div class="goal-current">3.5 saat</div>
+                  <div class="goal-target">/ 5 saat</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="goal-card questions-goal">
+              <div class="goal-header">
+                <div class="goal-icon">📝</div>
+                <h3>Soru Çözme</h3>
+              </div>
+              <div class="goal-progress">
+                <div class="goal-circle">
+                  <svg width="80" height="80">
+                    <circle cx="40" cy="40" r="35" class="goal-bg"></circle>
+                    <circle cx="40" cy="40" r="35" class="goal-progress-circle" style="stroke-dasharray: 220; stroke-dashoffset: 88;"></circle>
+                  </svg>
+                  <div class="goal-percentage">60%</div>
+                </div>
+                <div class="goal-details">
+                  <div class="goal-current">30 soru</div>
+                  <div class="goal-target">/ 50 soru</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="goal-card subjects-goal">
+              <div class="goal-header">
+                <div class="goal-icon">📚</div>
+                <h3>Ders Sayısı</h3>
+              </div>
+              <div class="goal-progress">
+                <div class="goal-circle">
+                  <svg width="80" height="80">
+                    <circle cx="40" cy="40" r="35" class="goal-bg"></circle>
+                    <circle cx="40" cy="40" r="35" class="goal-progress-circle" style="stroke-dasharray: 220; stroke-dashoffset: 110;"></circle>
+                  </svg>
+                  <div class="goal-percentage">50%</div>
+                </div>
+                <div class="goal-details">
+                  <div class="goal-current">3 ders</div>
+                  <div class="goal-target">/ 6 ders</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="quick-actions-section">
+          <h2>⚡ Hızlı İşlemler</h2>
+          <div class="actions-grid">
+            <button class="action-btn" onclick="openQuestionEntry()">
+              <div class="action-icon">📝</div>
+              <div class="action-text">Soru Girişi</div>
+            </button>
+            <button class="action-btn" onclick="openTopicReview()">
+              <div class="action-icon">📖</div>
+              <div class="action-text">Konu Tekrarı</div>
+            </button>
+            <button class="action-btn" onclick="openWeeklyPlan()">
+              <div class="action-icon">📅</div>
+              <div class="action-text">Haftalık Plan</div>
+            </button>
+            <button class="action-btn" onclick="openStudyNotes()">
+              <div class="action-icon">📋</div>
+              <div class="action-text">Çalışma Notları</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Entry Modal (Hidden by default) -->
+        <div id="question-entry-modal" class="modal" style="display: none;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>📝 Günlük Soru Girişi</h3>
+              <button class="close-modal" onclick="closeQuestionEntry()">&times;</button>
+            </div>
+            <form id="daily-form" class="question-form">
+              <div class="subjects-grid">
+                <div class="subject-card" style="--subject-color: #ff6b6b;">
+                  <div class="subject-header">
+                    <div class="subject-icon">📚</div>
+                    <div class="subject-name">Türkçe</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="turkce-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="turkce-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="subject-card" style="--subject-color: #4ecdc4;">
+                  <div class="subject-header">
+                    <div class="subject-icon">🔢</div>
+                    <div class="subject-name">Matematik</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="matematik-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="matematik-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="subject-card" style="--subject-color: #96ceb4;">
+                  <div class="subject-header">
+                    <div class="subject-icon">🔬</div>
+                    <div class="subject-name">Fen Bilimleri</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="fen-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="fen-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="subject-card" style="--subject-color: #feca57;">
+                  <div class="subject-header">
+                    <div class="subject-icon">🌍</div>
+                    <div class="subject-name">Sosyal Bilgiler</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="sosyal-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="sosyal-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="subject-card" style="--subject-color: #a55eea;">
+                  <div class="subject-header">
+                    <div class="subject-icon">🇬🇧</div>
+                    <div class="subject-name">İngilizce</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="ingilizce-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="ingilizce-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="subject-card" style="--subject-color: #fd79a8;">
+                  <div class="subject-header">
+                    <div class="subject-icon">🕌</div>
+                    <div class="subject-name">Din Kültürü</div>
+                  </div>
+                  <div class="subject-inputs">
+                    <div class="input-group">
+                      <label>✅ Doğru</label>
+                      <input type="number" id="din-dogru" min="0" value="0" class="doğru" />
+                    </div>
+                    <div class="input-group">
+                      <label>❌ Yanlış</label>
+                      <input type="number" id="din-yanlis" min="0" value="0" class="yanlis" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">💾 Bugünkü Verileri Kaydet!</button>
+            </form>
+          </div>
+        </div>
       </div>
+    </div>
 
       <!-- Study Reminders -->
       <div class="card">
@@ -2218,7 +2427,7 @@
           <div class="study-stat-card">
             <div class="stat-icon">🔥</div>
             <div class="stat-info">
-              <div class="stat-number">7</div>
+              <div class="stat-number">8</div>
               <div class="stat-label">Üst Üste Çalışma Günü</div>
             </div>
           </div>
