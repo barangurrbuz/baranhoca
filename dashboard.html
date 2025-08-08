@@ -260,22 +260,24 @@
       display: block;
     }
     
-    /* Goals Tab Specific Styles */
-    #goals.tab-content {
-      display: none !important;
+    /* Goals Tab Specific Styles - High Specificity Selector */
+    body #goals.tab-content {
+      display: none;
       width: 100%;
       min-height: 500px;
       background: transparent;
       padding: 1rem 0;
-      visibility: hidden;
       opacity: 0;
       transition: opacity 0.3s ease;
+      position: relative;
+      z-index: 1;
     }
     
-    #goals.tab-content.active {
+    body #goals.tab-content.active {
       display: block !important;
-      visibility: visible !important;
       opacity: 1 !important;
+      visibility: visible !important;
+      height: auto !important;
     }
     
     .goals-dashboard {
@@ -5655,78 +5657,106 @@
     document.addEventListener('DOMContentLoaded', function() {
       console.log('🔍 Tab switcher initialized');
       
-      // Tab switching functionality
-      const tabButtons = document.querySelectorAll('.tab-btn');
-      const tabContents = document.querySelectorAll('.tab-content');
-      
-      // Debug: Log all tabs and buttons
-      console.log('Found tab buttons:', tabButtons);
-      console.log('Found tab contents:', tabContents);
-      
-      // Debug: Check if goals tab exists
-      const goalsTab = document.getElementById('goals');
-      console.log('Goals tab element:', goalsTab);
-      if (goalsTab) {
-        console.log('Goals tab HTML:', goalsTab.outerHTML.substring(0, 500) + '...');
-      }
+      // Tab switching functionality with better error handling
+      function setupTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        console.log('Setting up tabs...');
+        console.log('Tab buttons:', tabButtons.length);
+        console.log('Tab contents:', tabContents.length);
+        
+        // Debug: Check if goals tab exists and log its state
+        const goalsTab = document.getElementById('goals');
+        if (goalsTab) {
+          console.log('Goals tab found, current state:', {
+            display: window.getComputedStyle(goalsTab).display,
+            opacity: window.getComputedStyle(goalsTab).opacity,
+            visibility: window.getComputedStyle(goalsTab).visibility,
+            classList: goalsTab.classList.toString()
+          });
+        }
 
-      // Show the first tab by default if none is active
-      const activeTabs = document.querySelectorAll('.tab-content.active');
-      if (activeTabs.length === 0 && tabContents.length > 0) {
-        console.log('No active tabs found, activating first tab');
-        tabContents[0].classList.add('active');
-        tabButtons[0].classList.add('active');
-      }
+        // Show the first tab by default if none is active
+        const activeTabs = document.querySelectorAll('.tab-content.active');
+        if (activeTabs.length === 0 && tabContents.length > 0) {
+          console.log('No active tabs found, activating first tab');
+          tabContents[0].classList.add('active');
+          tabButtons[0].classList.add('active');
+        }
 
-      // Add click event listeners to tab buttons
-      tabButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
+        // Function to switch tabs
+        function switchTab(tabId) {
+          console.log('Switching to tab:', tabId);
           
-          const tabId = this.getAttribute('data-tab');
-          console.log('Tab clicked:', tabId);
-          
-          // Remove active class from all buttons and tab contents
-          tabButtons.forEach(btn => btn.classList.remove('active'));
-          tabContents.forEach(content => content.classList.remove('active'));
-          
-          // Add active class to clicked button
-          this.classList.add('active');
-          
-          // Show the selected tab content with a small delay to ensure DOM updates
-          setTimeout(() => {
-            const selectedTab = document.getElementById(tabId);
-            if (selectedTab) {
-              selectedTab.classList.add('active');
-              console.log('Showing tab:', tabId);
-              
-              // Force reflow to ensure transition works
-              void selectedTab.offsetWidth;
-              
-            } else {
-              console.error('Tab content not found:', tabId);
-            }
-          }, 10);
-        });
-      });
-      
-      // Initialize tabs - ensure all tabs are properly hidden/shown on load
-      function initializeTabs() {
-        console.log('Initializing tabs...');
-        tabContents.forEach((content, index) => {
-          if (!content.classList.contains('active')) {
+          // Hide all tab contents
+          tabContents.forEach(content => {
+            content.classList.remove('active');
             content.style.display = 'none';
+            content.style.opacity = '0';
+            content.style.visibility = 'hidden';
+          });
+          
+          // Remove active class from all buttons
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Show the selected tab
+          const selectedTab = document.getElementById(tabId);
+          const selectedButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+          
+          if (selectedTab && selectedButton) {
+            selectedButton.classList.add('active');
+            
+            // Force reflow/repaint
+            void selectedTab.offsetWidth;
+            
+            // Show the tab with a small delay
+            setTimeout(() => {
+              selectedTab.style.display = 'block';
+              setTimeout(() => {
+                selectedTab.classList.add('active');
+                selectedTab.style.opacity = '1';
+                selectedTab.style.visibility = 'visible';
+                console.log('Tab switched to:', tabId);
+              }, 10);
+            }, 10);
           } else {
-            content.style.display = 'block';
-            content.style.opacity = '1';
-            content.style.visibility = 'visible';
-            console.log('Active tab found:', content.id);
+            console.error('Tab or button not found:', tabId);
           }
+        }
+        
+        // Add click event listeners to tab buttons
+        tabButtons.forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+          });
         });
+        
+        // Initialize tabs
+        function initializeTabs() {
+          console.log('Initializing tabs...');
+          tabContents.forEach(content => {
+            if (content.classList.contains('active')) {
+              content.style.display = 'block';
+              content.style.opacity = '1';
+              content.style.visibility = 'visible';
+              console.log('Active tab initialized:', content.id);
+            } else {
+              content.style.display = 'none';
+              content.style.opacity = '0';
+              content.style.visibility = 'hidden';
+            }
+          });
+        }
+        
+        // Run initialization
+        initializeTabs();
       }
       
-      // Run initialization with a small delay to ensure all elements are loaded
-      setTimeout(initializeTabs, 100);
+      // Run setup after a small delay to ensure all elements are loaded
+      setTimeout(setupTabs, 50);
     });
   </script>
 </body>
