@@ -337,8 +337,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   showUserName(userInfo.ad, userInfo.soyad);
 
   if (userInfo.rol === 'koc') {
-    document.getElementById('koc-panel').style.display = 'block';
-    document.getElementById('admin-btn').style.display = 'inline-block';
+    // Koç panelini göster (eğer varsa)
+    const kocPanel = document.getElementById('koc-panel');
+    if (kocPanel) {
+      kocPanel.style.display = 'block';
+    }
+    
+    // Admin butonunu göster
+    const adminBtn = document.getElementById('admin-btn');
+    if (adminBtn) {
+      adminBtn.style.display = 'inline-block';
+    }
+    
+    // Koç tab'ını göster
+    const coachTab = document.getElementById('coach-tab');
+    if (coachTab) {
+      coachTab.style.display = 'block';
+    }
 
     const ogrenciSelect = document.getElementById('ogrenci-secim');
     const ogrenciler = await fetchOgrenciler();
