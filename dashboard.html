@@ -1675,7 +1675,6 @@
           <!-- Today's Study Plan -->
           <div class="card">
             <h2>📝 Bugünkü Çalışma Planı</h2>
-            <form id="daily-form">
             <div class="subjects-grid">
               <div class="subject-card" style="--subject-color: #ff6b6b;">
                 <div class="subject-header">
@@ -1779,8 +1778,7 @@
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">💾 Bugünkü Verileri Kaydet!</button>
-            </form>
+            <button type="submit" class="btn btn-primary" onclick="saveDailyData()">💾 Bugünkü Verileri Kaydet!</button>
           </div>
         </div>
 
@@ -2610,6 +2608,117 @@
             <div class="comparison-rank">7% geride</div>
           </div>
         </div>
+      </div>
+
+      <!-- Daily Study Data Entry -->
+      <div class="card">
+        <h2>📝 Bugünkü Çalışma Verilerini Gir</h2>
+        <form id="daily-form">
+          <div class="subjects-grid">
+            <div class="subject-card" style="--subject-color: #ff6b6b;">
+              <div class="subject-header">
+                <div class="subject-icon">📚</div>
+                <div class="subject-name">Türkçe</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="turkce-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="turkce-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+
+            <div class="subject-card" style="--subject-color: #4ecdc4;">
+              <div class="subject-header">
+                <div class="subject-icon">🔢</div>
+                <div class="subject-name">Matematik</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="matematik-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="matematik-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+
+            <div class="subject-card" style="--subject-color: #96ceb4;">
+              <div class="subject-header">
+                <div class="subject-icon">🔬</div>
+                <div class="subject-name">Fen Bilimleri</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="fen-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="fen-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+
+            <div class="subject-card" style="--subject-color: #feca57;">
+              <div class="subject-header">
+                <div class="subject-icon">🌍</div>
+                <div class="subject-name">Sosyal Bilgiler</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="sosyal-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="sosyal-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+
+            <div class="subject-card" style="--subject-color: #a55eea;">
+              <div class="subject-header">
+                <div class="subject-icon">🇬🇧</div>
+                <div class="subject-name">İngilizce</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="ingilizce-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="ingilizce-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+
+            <div class="subject-card" style="--subject-color: #fd79a8;">
+              <div class="subject-header">
+                <div class="subject-icon">🕌</div>
+                <div class="subject-name">Din Kültürü</div>
+              </div>
+              <div class="subject-inputs">
+                <div class="input-group">
+                  <label>✅ Doğru</label>
+                  <input type="number" id="din-dogru" min="0" value="0" class="doğru" />
+                </div>
+                <div class="input-group">
+                  <label>❌ Yanlış</label>
+                  <input type="number" id="din-yanlis" min="0" value="0" class="yanlis" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">💾 Bugünkü Verileri Kaydet!</button>
+        </form>
       </div>
     </div>
 
