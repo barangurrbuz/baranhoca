@@ -2214,6 +2214,714 @@
       box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
     }
 
+    /* Goals Dashboard Styles */
+    .goals-dashboard {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* LGS Target Section */
+    .lgs-target-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .lgs-target-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .target-score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .current-performance h3,
+    .target-schools h3 {
+      margin: 0 0 1.5rem 0;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .performance-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .performance-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .subject-score {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .subject-score .subject-name {
+      font-weight: 700;
+      color: #2c3e50;
+      font-size: 0.9rem;
+    }
+
+    .subject-score .score {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #667eea;
+    }
+
+    .score-bar {
+      width: 100%;
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .total-score-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      color: white;
+      text-align: center;
+    }
+
+    .total-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .score-number {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+
+    .score-label {
+      font-size: 1rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .score-trend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* Target Schools */
+    .schools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .school-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .school-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .school-card.achievable {
+      border-left: 4px solid #4CAF50;
+    }
+
+    .school-card.stretch {
+      border-left: 4px solid #FF9800;
+    }
+
+    .school-card.safe {
+      border-left: 4px solid #2196F3;
+    }
+
+    .school-info h4 {
+      margin: 0 0 0.25rem 0;
+      color: #2c3e50;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .school-location {
+      color: #7f8c8d;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .school-score {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .required-score {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #667eea;
+    }
+
+    .gap-info {
+      text-align: right;
+    }
+
+    .gap-number {
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .gap-label {
+      color: #7f8c8d;
+      font-size: 0.85rem;
+    }
+
+    .school-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .school-status.achievable {
+      color: #4CAF50;
+    }
+
+    .school-status.stretch {
+      color: #FF9800;
+    }
+
+    .school-status.safe {
+      color: #2196F3;
+    }
+
+    /* Study Plan Section */
+    .study-plan-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .study-plan-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .weak-subjects h3,
+    .strong-subjects h3 {
+      margin: 0 0 1.5rem 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .weak-subjects h3 {
+      color: #e74c3c;
+    }
+
+    .strong-subjects h3 {
+      color: #27ae60;
+    }
+
+    .weak-subjects-list,
+    .strong-subjects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .weak-subject-card,
+    .strong-subject-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .weak-subject-card {
+      border-left: 4px solid #e74c3c;
+    }
+
+    .strong-subject-card {
+      border-left: 4px solid #27ae60;
+    }
+
+    .subject-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .subject-info .subject-name {
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .subject-info .current-score {
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .improvement-plan,
+    .maintenance-plan {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .plan-item {
+      font-size: 0.85rem;
+      color: #7f8c8d;
+      font-weight: 600;
+    }
+
+    /* Weekly Goals Section */
+    .weekly-goals-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .weekly-goals-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .weekly-goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .goal-progress-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .goal-progress-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .goal-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .goal-icon {
+      font-size: 1.5rem;
+    }
+
+    .goal-title {
+      font-weight: 700;
+      color: #2c3e50;
+      font-size: 1rem;
+    }
+
+    .goal-progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .goal-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .progress-text {
+      color: #2c3e50;
+    }
+
+    .remaining-time {
+      color: #7f8c8d;
+    }
+
+    /* Motivation Section */
+    .motivation-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .motivation-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .motivation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tip-card {
+      border-radius: 15px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .tip-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .tip-card.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
+
+    .tip-card.warning {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+    }
+
+    .tip-card.info {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+    }
+
+    .tip-card.goal {
+      background: #e2e3f1;
+      border: 1px solid #d1d3e2;
+    }
+
+    .tip-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .tip-content h3 {
+      margin: 0 0 0.5rem 0;
+      color: #2c3e50;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .tip-content p {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Study Schedule Section */
+    .study-schedule-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .study-schedule-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .day-schedule {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .day-schedule.weekend {
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+      color: #2c3e50;
+    }
+
+    .day-schedule h3 {
+      margin: 0 0 1rem 0;
+      color: #2c3e50;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .schedule-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .schedule-item {
+      background: white;
+      border-radius: 8px;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .schedule-item .time {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .schedule-item .subject {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .schedule-item .topic {
+      font-size: 0.8rem;
+      color: #7f8c8d;
+    }
+
+    /* Progress Tracking Section */
+    .progress-tracking-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .progress-tracking-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .tracking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .monthly-progress,
+    .subject-comparison,
+    .achievement-timeline {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .monthly-progress h3,
+    .subject-comparison h3,
+    .achievement-timeline h3 {
+      margin: 0 0 1rem 0;
+      color: #2c3e50;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .progress-chart,
+    .comparison-chart {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e9ecef;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e9ecef;
+    }
+
+    .timeline-item.completed {
+      border-left: 4px solid #27ae60;
+    }
+
+    .timeline-item.upcoming {
+      border-left: 4px solid #667eea;
+    }
+
+    .timeline-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7f8c8d;
+      min-width: 60px;
+    }
+
+    .timeline-content h4 {
+      margin: 0 0 0.25rem 0;
+      color: #2c3e50;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .timeline-content p {
+      margin: 0;
+      color: #7f8c8d;
+      font-size: 0.8rem;
+    }
+
+    /* Action Items Section */
+    .action-items-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .action-items-section h2 {
+      margin: 0 0 2rem 0;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .action-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .priority-high,
+    .priority-medium,
+    .priority-low {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border: 1px solid #e9ecef;
+    }
+
+    .priority-high {
+      border-left: 4px solid #e74c3c;
+    }
+
+    .priority-medium {
+      border-left: 4px solid #f39c12;
+    }
+
+    .priority-low {
+      border-left: 4px solid #27ae60;
+    }
+
+    .priority-high h3,
+    .priority-medium h3,
+    .priority-low h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+
+    .action-item:hover {
+      background: #f8f9fa;
+    }
+
+    .action-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #667eea;
+    }
+
+    .action-item label {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #2c3e50;
+      cursor: pointer;
+    }
+
+    .action-item input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #7f8c8d;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .study-dashboard {
@@ -2248,6 +2956,20 @@
       .question-form .subject-inputs {
         flex-direction: column;
         gap: 0.75rem;
+      }
+
+      .target-score-grid,
+      .plan-grid,
+      .tracking-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .schedule-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .action-items-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -3218,31 +3940,499 @@
 
     <!-- Goals Tab -->
     <div id="goals" class="tab-content">
-      <div class="card">
-        <h2>🎯 Hedef Belirleme ve Takip</h2>
-        <div class="dashboard-grid">
-          <div class="main-content">
-            <div class="goal-card">
-              <h3>📅 Haftalık Hedefler</h3>
-              <div class="goal-input">
-                <input type="text" id="weekly-goal" placeholder="Haftalık hedefin nedir?" />
-                <select id="weekly-priority">
-                  <option value="">Öncelik seviyesi</option>
-                  <option value="high">Yüksek</option>
-                  <option value="medium">Orta</option>
-                  <option value="low">Düşük</option>
-                </select>
+      <div class="goals-dashboard">
+        
+        <!-- LGS Target Score Section -->
+        <div class="lgs-target-section">
+          <h2>🎯 LGS Hedef Puanım</h2>
+          <div class="target-score-grid">
+            <div class="current-performance">
+              <h3>📊 Mevcut Performansım</h3>
+              <div class="performance-stats">
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">Türkçe</span>
+                    <span class="score">16/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 80%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">Matematik</span>
+                    <span class="score">15/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 75%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">Fen Bilimleri</span>
+                    <span class="score">17/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 85%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">Sosyal</span>
+                    <span class="score">11/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 55%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">İngilizce</span>
+                    <span class="score">14/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 70%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="performance-card">
+                  <div class="subject-score">
+                    <span class="subject-name">Din Kültürü</span>
+                    <span class="score">12/20</span>
+                    <div class="score-bar">
+                      <div class="score-fill" style="width: 60%"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button class="btn btn-primary">Hedef Ekle</button>
+              <div class="total-score-card">
+                <div class="total-score">
+                  <span class="score-number">425</span>
+                  <span class="score-label">Tahmini LGS Puanım</span>
+                </div>
+                <div class="score-trend">
+                  <span class="trend-icon">📈</span>
+                  <span class="trend-text">Son 3 denemede +25 puan artış</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="sidebar">
-            <div class="motivation-card">
-              <div class="motivation-text">🎯 Hedeflerine Odaklan!</div>
-              <div class="motivation-quote">"Büyük hedefler, küçük adımlarla gerçekleşir."</div>
+
+            <div class="target-schools">
+              <h3>🏫 Hedef Liselerim</h3>
+              <div class="schools-list">
+                <div class="school-card achievable">
+                  <div class="school-info">
+                    <h4>Galatasaray Lisesi</h4>
+                    <div class="school-location">İstanbul - Beyoğlu</div>
+                  </div>
+                  <div class="school-score">
+                    <span class="required-score">485</span>
+                    <span class="score-label">Taban Puan</span>
+                    <div class="gap-info">
+                      <span class="gap-number">60 puan</span>
+                      <span class="gap-label">daha gerekli</span>
+                    </div>
+                  </div>
+                  <div class="school-status achievable">
+                    <span class="status-icon">🎯</span>
+                    <span class="status-text">Ulaşılabilir</span>
+                  </div>
+                </div>
+
+                <div class="school-card stretch">
+                  <div class="school-info">
+                    <h4>Robert Kolej</h4>
+                    <div class="school-location">İstanbul - Arnavutköy</div>
+                  </div>
+                  <div class="school-score">
+                    <span class="required-score">520</span>
+                    <span class="score-label">Taban Puan</span>
+                    <div class="gap-info">
+                      <span class="gap-number">95 puan</span>
+                      <span class="gap-label">daha gerekli</span>
+                    </div>
+                  </div>
+                  <div class="school-status stretch">
+                    <span class="status-icon">🚀</span>
+                    <span class="status-text">Zorlayıcı</span>
+                  </div>
+                </div>
+
+                <div class="school-card safe">
+                  <div class="school-info">
+                    <h4>Kadıköy Anadolu Lisesi</h4>
+                    <div class="school-location">İstanbul - Kadıköy</div>
+                  </div>
+                  <div class="school-score">
+                    <span class="required-score">380</span>
+                    <span class="score-label">Taban Puan</span>
+                    <div class="gap-info">
+                      <span class="gap-number">+45 puan</span>
+                      <span class="gap-label">üzerinde</span>
+                    </div>
+                  </div>
+                  <div class="school-status safe">
+                    <span class="status-icon">✅</span>
+                    <span class="status-text">Güvenli</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Study Plan Section -->
+        <div class="study-plan-section">
+          <h2>📚 Çalışma Planım</h2>
+          <div class="plan-grid">
+            <div class="weak-subjects">
+              <h3>🔴 Güçlendirilmesi Gereken Dersler</h3>
+              <div class="weak-subjects-list">
+                <div class="weak-subject-card">
+                  <div class="subject-info">
+                    <span class="subject-name">Sosyal Bilgiler</span>
+                    <span class="current-score">11/20</span>
+                  </div>
+                  <div class="improvement-plan">
+                    <div class="plan-item">📖 Tarih konularına odaklan</div>
+                    <div class="plan-item">📝 Günde 10 soru çöz</div>
+                    <div class="plan-item">⏰ Haftalık 3 saat ayır</div>
+                  </div>
+                </div>
+                <div class="weak-subject-card">
+                  <div class="subject-info">
+                    <span class="subject-name">Din Kültürü</span>
+                    <span class="current-score">12/20</span>
+                  </div>
+                  <div class="improvement-plan">
+                    <div class="plan-item">📚 Temel kavramları tekrarla</div>
+                    <div class="plan-item">📝 Günde 5 soru çöz</div>
+                    <div class="plan-item">⏰ Haftalık 2 saat ayır</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="strong-subjects">
+              <h3>🟢 Güçlü Olduğum Dersler</h3>
+              <div class="strong-subjects-list">
+                <div class="strong-subject-card">
+                  <div class="subject-info">
+                    <span class="subject-name">Fen Bilimleri</span>
+                    <span class="current-score">17/20</span>
+                  </div>
+                  <div class="maintenance-plan">
+                    <div class="plan-item">🎯 Mevcut seviyeyi koru</div>
+                    <div class="plan-item">📝 Günde 5 soru çöz</div>
+                    <div class="plan-item">⏰ Haftalık 2 saat ayır</div>
+                  </div>
+                </div>
+                <div class="strong-subject-card">
+                  <div class="subject-info">
+                    <span class="subject-name">Türkçe</span>
+                    <span class="current-score">16/20</span>
+                  </div>
+                  <div class="maintenance-plan">
+                    <div class="plan-item">📖 Okuma hızını artır</div>
+                    <div class="plan-item">📝 Günde 8 soru çöz</div>
+                    <div class="plan-item">⏰ Haftalık 2.5 saat ayır</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Goals Section -->
+        <div class="weekly-goals-section">
+          <h2>📅 Bu Haftaki Hedeflerim</h2>
+          <div class="weekly-goals-grid">
+            <div class="goal-progress-card">
+              <div class="goal-header">
+                <span class="goal-icon">📚</span>
+                <span class="goal-title">Sosyal Bilgiler Güçlendir</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 60%"></div>
+              </div>
+              <div class="goal-details">
+                <span class="progress-text">60% tamamlandı</span>
+                <span class="remaining-time">2 gün kaldı</span>
+              </div>
+            </div>
+
+            <div class="goal-progress-card">
+              <div class="goal-header">
+                <span class="goal-icon">🔢</span>
+                <span class="goal-title">Matematik 100 Soru</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 75%"></div>
+              </div>
+              <div class="goal-details">
+                <span class="progress-text">75/100 soru</span>
+                <span class="remaining-time">25 soru kaldı</span>
+              </div>
+            </div>
+
+            <div class="goal-progress-card">
+              <div class="goal-header">
+                <span class="goal-icon">⏰</span>
+                <span class="goal-title">Günlük 3 Saat Çalışma</span>
+              </div>
+              <div class="goal-progress-bar">
+                <div class="progress-fill" style="width: 85%"></div>
+              </div>
+              <div class="goal-details">
+                <span class="progress-text">6/7 gün tamamlandı</span>
+                <span class="remaining-time">1 gün kaldı</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivational Tips Section -->
+        <div class="motivation-section">
+          <h2>💪 Motivasyon ve Öneriler</h2>
+          <div class="motivation-grid">
+            <div class="tip-card success">
+              <div class="tip-icon">🎉</div>
+              <div class="tip-content">
+                <h3>Tebrikler!</h3>
+                <p>Fen Bilimlerinde çok başarılısın! Bu momentum'u korumaya devam et.</p>
+              </div>
+            </div>
+
+            <div class="tip-card warning">
+              <div class="tip-icon">⚠️</div>
+              <div class="tip-content">
+                <h3>Dikkat!</h3>
+                <p>Sosyal Bilgiler dersine daha fazla zaman ayırman gerekiyor. Tarih konularını tekrarla.</p>
+              </div>
+            </div>
+
+            <div class="tip-card info">
+              <div class="tip-icon">💡</div>
+              <div class="tip-content">
+                <h3>Öneri</h3>
+                <p>Pomodoro tekniği ile çalış: 25 dk çalışma + 5 dk mola = Daha verimli öğrenme!</p>
+              </div>
+            </div>
+
+            <div class="tip-card goal">
+              <div class="tip-icon">🚀</div>
+              <div class="tip-content">
+                <h3>Hedef Odaklı</h3>
+                <p>Galatasaray Lisesi için 60 puan daha gerekli. Sosyal ve Din Kültürü'ne odaklan!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Study Schedule Section -->
+        <div class="study-schedule-section">
+          <h2>📅 Önerilen Haftalık Program</h2>
+          <div class="schedule-grid">
+            <div class="day-schedule">
+              <h3>Pazartesi</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">16:00-17:30</span>
+                  <span class="subject">Sosyal Bilgiler</span>
+                  <span class="topic">Osmanlı Tarihi</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">19:00-20:00</span>
+                  <span class="subject">Matematik</span>
+                  <span class="topic">Cebirsel İfadeler</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-schedule">
+              <h3>Salı</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">16:00-17:00</span>
+                  <span class="subject">Türkçe</span>
+                  <span class="topic">Anlatım Bozuklukları</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">19:00-20:30</span>
+                  <span class="subject">Fen Bilimleri</span>
+                  <span class="topic">Basit Makineler</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-schedule">
+              <h3>Çarşamba</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">16:00-17:00</span>
+                  <span class="subject">Din Kültürü</span>
+                  <span class="topic">İbadet ve Günlük Yaşam</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">19:00-20:00</span>
+                  <span class="subject">İngilizce</span>
+                  <span class="topic">Natural Forces</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-schedule">
+              <h3>Perşembe</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">16:00-18:00</span>
+                  <span class="subject">Matematik</span>
+                  <span class="topic">Oran ve Orantı</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">19:00-19:30</span>
+                  <span class="subject">Sosyal</span>
+                  <span class="topic">Milli Mücadele</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-schedule">
+              <h3>Cuma</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">16:00-17:00</span>
+                  <span class="subject">Türkçe</span>
+                  <span class="topic">Noktalama İşaretleri</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">19:00-20:00</span>
+                  <span class="subject">Fen Bilimleri</span>
+                  <span class="topic">Işık ve Ses</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="day-schedule weekend">
+              <h3>Hafta Sonu</h3>
+              <div class="schedule-items">
+                <div class="schedule-item">
+                  <span class="time">10:00-12:00</span>
+                  <span class="subject">Deneme Sınavı</span>
+                  <span class="topic">Tam LGS Denemesi</span>
+                </div>
+                <div class="schedule-item">
+                  <span class="time">14:00-15:00</span>
+                  <span class="subject">Tekrar</span>
+                  <span class="topic">Zayıf Konular</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Tracking Section -->
+        <div class="progress-tracking-section">
+          <h2>📈 İlerleme Takibi</h2>
+          <div class="tracking-grid">
+            <div class="monthly-progress">
+              <h3>📊 Aylık İlerleme</h3>
+              <div class="progress-chart">
+                <canvas id="monthlyProgressChart" width="400" height="200"></canvas>
+              </div>
+            </div>
+
+            <div class="subject-comparison">
+              <h3>⚖️ Ders Karşılaştırması</h3>
+              <div class="comparison-chart">
+                <canvas id="subjectComparisonChart" width="300" height="300"></canvas>
+              </div>
+            </div>
+
+            <div class="achievement-timeline">
+              <h3>🏆 Başarı Zaman Çizelgesi</h3>
+              <div class="timeline">
+                <div class="timeline-item completed">
+                  <div class="timeline-date">15 Ocak</div>
+                  <div class="timeline-content">
+                    <h4>İlk 400+ Puan</h4>
+                    <p>LGS denemesinde 405 puan aldın!</p>
+                  </div>
+                </div>
+                <div class="timeline-item completed">
+                  <div class="timeline-date">22 Ocak</div>
+                  <div class="timeline-content">
+                    <h4>Matematik Seviye 8</h4>
+                    <p>Matematik dersinde seviye 8'e ulaştın!</p>
+                  </div>
+                </div>
+                <div class="timeline-item upcoming">
+                  <div class="timeline-date">Hedef</div>
+                  <div class="timeline-content">
+                    <h4>450+ Puan Hedefi</h4>
+                    <p>Bir sonraki denemede 450+ puan al!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Items Section -->
+        <div class="action-items-section">
+          <h2>✅ Bu Hafta Yapılacaklar</h2>
+          <div class="action-items-grid">
+            <div class="priority-high">
+              <h3>🔴 Yüksek Öncelik</h3>
+              <div class="action-list">
+                <div class="action-item">
+                  <input type="checkbox" id="action1">
+                  <label for="action1">Sosyal Bilgiler - Osmanlı Devleti konusunu bitir</label>
+                </div>
+                <div class="action-item">
+                  <input type="checkbox" id="action2">
+                  <label for="action2">Din Kültürü - 50 soru çöz</label>
+                </div>
+                <div class="action-item">
+                  <input type="checkbox" id="action3">
+                  <label for="action3">2 adet tam deneme sınavı çöz</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="priority-medium">
+              <h3>🟡 Orta Öncelik</h3>
+              <div class="action-list">
+                <div class="action-item">
+                  <input type="checkbox" id="action4" checked>
+                  <label for="action4">Matematik - Cebirsel ifadeler tekrarı</label>
+                </div>
+                <div class="action-item">
+                  <input type="checkbox" id="action5">
+                  <label for="action5">İngilizce - Natural Forces ünitesi</label>
+                </div>
+                <div class="action-item">
+                  <input type="checkbox" id="action6">
+                  <label for="action6">Türkçe - Noktalama işaretleri</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="priority-low">
+              <h3>🟢 Düşük Öncelik</h3>
+              <div class="action-list">
+                <div class="action-item">
+                  <input type="checkbox" id="action7">
+                  <label for="action7">Fen Bilimleri - Işık ve Ses konusu</label>
+                </div>
+                <div class="action-item">
+                  <input type="checkbox" id="action8">
+                  <label for="action8">Genel tekrar - Tüm dersler</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
