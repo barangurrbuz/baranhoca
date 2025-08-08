@@ -3,390 +3,3244 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Öğrenci Koçluğu Dashboard - Baran Gürbüz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Öğrenci Koçluğu Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --primary: #2980b9;
-      --primary-dark: #1c5980;
-      --success: #27ae60;
-      --error: #e74c3c;
-      --bg-light: #f0f4ff;
-      --card-bg: #ffffff;
+      --primary: #ff6b35;
+      --primary-dark: #e55a2b;
+      --secondary: #4ecdc4;
+      --accent: #45b7d1;
+      --success: #96ceb4;
+      --error: #ff6b6b;
+      --warning: #feca57;
+      --purple: #a55eea;
+      --pink: #fd79a8;
+      --orange: #fdcb6e;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-dark: #2d3436;
+      --text-light: #636e72;
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.15);
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, var(--bg-light), #ffffff);
-      color: #2c3e50;
-      padding: 2rem;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-dark);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(1deg); }
+      66% { transform: translateY(10px) rotate(-1deg); }
+    }
+
+    /* Header Styles */
     header {
-      background-color: var(--card-bg);
-      padding: 1rem 2rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
       flex-wrap: wrap;
       gap: 1rem;
     }
 
-    header > div:first-child {
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 1rem;
     }
 
-    header img {
-      height: 40px;
+    .logo {
+      height: 50px;
       width: auto;
-      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     header h1 {
-      margin: 0;
       font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary-dark);
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff6b35, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     #user-name {
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-right: 1rem;
-      color: var(--primary);
-      white-space: nowrap;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     #logout-btn {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-      padding: 0.6rem 1.5rem;
+      color: white;
+      padding: 0.8rem 1.5rem;
       border: none;
-      border-radius: 12px;
+      border-radius: 50px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      white-space: nowrap;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #logout-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    #logout-btn:hover::before {
+      left: 100%;
     }
 
     #logout-btn:hover {
-      filter: brightness(1.1);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
     }
 
-    section {
-      background-color: var(--card-bg);
-      border-radius: 20px;
+    /* Main Container */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
 
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 1.2rem;
-    }
-
-    .form-headers {
+    /* Tab Navigation */
+    .tab-nav {
       display: flex;
-      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 50px;
+      padding: 0.5rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 40px;
+      transition: all 0.4s ease;
+      white-space: nowrap;
+      min-width: 120px;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 40px;
+    }
+
+    .tab-btn.active::before {
+      opacity: 1;
+    }
+
+    .tab-btn.active {
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .tab-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card h2 {
+      margin: 0 0 2rem 0;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.8rem;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
     }
 
-    .form-headers div:first-child {
-      width: 120px;
+    /* Dashboard Grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
 
-    .form-headers div:nth-child(2) {
-      flex: 1;
-      text-align: center;
-      color: var(--success);
-    }
-
-    .form-headers div:nth-child(3) {
-      flex: 1;
-      text-align: center;
-      color: var(--error);
-    }
-
-    form {
+    .main-content {
       display: flex;
       flex-direction: column;
+      gap: 2rem;
     }
 
-    .ders-row {
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Subject Cards Grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .subject-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .subject-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--subject-color, var(--primary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .subject-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .subject-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .subject-header {
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
     }
 
-    .ders-row label {
-      width: 120px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .ders-row input[type="number"] {
-      flex: 1;
-      padding: 0.5rem;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      text-align: center;
-      font-size: 1rem;
-      background-color: #f9fbff;
+    .subject-icon {
+      font-size: 2rem;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      background: var(--subject-color, var(--primary));
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      min-width: 80px;
     }
 
-    .ders-row input[type="number"]:focus {
-      border-color: var(--primary);
-      background-color: #e9f3ff;
+    .subject-card:hover .subject-icon {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    .subject-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+    }
+
+    .subject-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="number"], input[type="text"], textarea, select {
+      padding: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    input[type="number"] {
+      text-align: center;
+    }
+
+    input:focus, textarea:focus, select:focus {
       outline: none;
+      border-color: var(--subject-color, var(--primary));
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+      transform: scale(1.02);
+      background: white;
     }
 
     .doğru {
-      border-left: 5px solid var(--success);
+      border-left: 6px solid var(--success);
     }
 
     .yanlis {
-      border-left: 5px solid var(--error);
+      border-left: 6px solid var(--error);
     }
 
-    .submit-btn {
-      margin-top: 1rem;
+    /* Button Styles */
+    .btn {
+      padding: 1.2rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
-      border: none;
-      padding: 0.9rem;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      align-self: flex-start;
-      min-width: 140px;
+      box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
     }
 
-    .submit-btn:hover {
-      filter: brightness(1.1);
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
     }
 
-    canvas {
-      background-color: #f8faff;
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
-      width: 100% !important;
-      max-height: 350px;
-      display: block;
-      margin: 0 auto;
+    .btn-primary:hover::before {
+      left: 100%;
     }
 
-    #haftalik-ozet p {
-      margin: 0.5rem 0;
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      padding: 2rem;
+      border-radius: 25px;
+      text-align: center;
+      border: 2px solid var(--border);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.9rem;
       font-weight: 600;
     }
 
-    #ogrenci-secim, #alici-select, #mesaj-input {
-      padding: 0.6rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      width: 100%;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      transition: border-color 0.3s ease;
+    /* Goal Setting */
+    .goal-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
     }
 
-    #ogrenci-secim:focus, #alici-select:focus, #mesaj-input:focus {
-      border-color: var(--primary);
-      outline: none;
-      background-color: #e9f3ff;
+    .goal-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .goal-input {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .goal-input input {
+      flex: 1;
+    }
+
+    .goal-input select {
+      min-width: 140px;
+    }
+
+    /* Notes Section */
+    .notes-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .notes-section:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .notes-section textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      font-family: inherit;
+      border-radius: 15px;
+    }
+
+    /* Motivation Section */
+    .motivation-card {
+      background: linear-gradient(135deg, var(--success), #96ceb4);
+      color: white;
+      border-radius: 25px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .motivation-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .motivation-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .motivation-quote {
+      font-style: italic;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .chart-container:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    canvas {
+      max-height: 300px;
+    }
+
+    /* Messaging Styles */
+    .messaging-container {
+      display: flex;
+      flex-direction: column;
+      height: 400px;
+    }
+
+    #alici-select {
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.8);
     }
 
     #mesaj-listesi {
-      height: 250px;
+      flex: 1;
       overflow-y: auto;
       padding: 1rem;
-      background-color: #f0f6ff;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
       margin-bottom: 1rem;
+      border: 1px solid var(--border);
     }
 
     #mesaj-form {
       display: flex;
-      gap: 0.5rem;
-      align-items: center;
+      gap: 0.8rem;
+    }
+
+    #mesaj-input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 15px;
+      font-size: 1rem;
     }
 
     #mesaj-gonder-btn {
-      background: var(--primary);
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
-      cursor: pointer;
+      border-radius: 15px;
       font-weight: 600;
-      transition: background 0.3s ease;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     #mesaj-gonder-btn:hover {
-      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
     }
 
-    /* Responsive adjustments */
+    /* Gamification Styles */
+    .gamification-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .level-card, .streak-card, .goal-progress-card, .challenges-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .level-card::before, .streak-card::before, .goal-progress-card::before, .challenges-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .level-card:hover::before, .streak-card:hover::before, .goal-progress-card:hover::before, .challenges-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .level-card:hover, .streak-card:hover, .goal-progress-card:hover, .challenges-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .level-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .level-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .level-title {
+      font-size: 1rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .level-details {
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.3s ease-in-out;
+    }
+
+    .total-points {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .points-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .points-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .streak-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .streak-info {
+      text-align: center;
+    }
+
+    .streak-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .streak-info p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .goal-progress {
+      margin-top: 1rem;
+    }
+
+    .goal-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .goal-bar {
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .goal-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 5px;
+      transition: width 0.3s ease-in-out;
+    }
+
+    .goal-status {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-align: right;
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .badge.earned {
+      border-color: var(--success);
+      box-shadow: 0 10px 20px rgba(96, 206, 180, 0.2);
+    }
+
+    .badge.earned:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(96, 206, 180, 0.3);
+    }
+
+    .badge.locked {
+      border-color: var(--warning);
+      box-shadow: 0 10px 20px rgba(254, 202, 87, 0.2);
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .badge.locked:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .badge-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    .badge-info h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-info p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .challenge {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .challenge.completed {
+      border-left: 6px solid var(--success);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+      box-shadow: 0 10px 20px rgba(96, 206, 180, 0.2);
+    }
+
+    .challenge.in-progress {
+      border-left: 6px solid var(--primary);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
+    }
+
+    .challenge.locked {
+      border-left: 6px solid var(--warning);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+      box-shadow: 0 10px 20px rgba(254, 202, 87, 0.2);
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .challenge-icon {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .challenge-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      flex: 1;
+    }
+
+    .challenge-progress {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-align: right;
+    }
+
+    /* Analytics Styles */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .analytics-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .analytics-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .analytics-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+
+    .analytics-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+
+    .analytics-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .analytics-info p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .subject-analytics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .subject-performance-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .subject-performance-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .performance-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .stat-value.success {
+      color: var(--success);
+    }
+
+    .stat-value.warning {
+      color: var(--warning);
+    }
+
+    .stat-value.error {
+      color: var(--error);
+    }
+
+    .performance-trend {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .trend-arrow {
+      font-size: 1.2rem;
+    }
+
+    .trend-text {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .topic-analysis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .topic-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .topic-card.strong {
+      border-left: 6px solid var(--success);
+    }
+
+    .topic-card.weak {
+      border-left: 6px solid var(--warning);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .topic-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .topic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .topic-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+    }
+
+    .topic-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .topic-score {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .study-time-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .time-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--border);
+    }
+
+    .time-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .time-stat {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 15px;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .time-stat:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .time-icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .time-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .time-info p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .comparison-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .comparison-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .comparison-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .comparison-score {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .comparison-rank {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
-      body {
+      .main-container {
         padding: 1rem;
       }
 
-      header, section {
-        padding: 1rem;
-      }
-
-      header {
+      .header-content {
         flex-direction: column;
-        align-items: flex-start;
+        text-align: center;
       }
 
-      .ders-row {
+      .tab-nav {
         flex-direction: column;
-        align-items: flex-start;
       }
 
-      .ders-row label, .ders-row input {
-        width: 100%;
+      .tab-btn {
+        min-width: auto;
       }
 
-      form {
-        gap: 0.5rem;
+      .subjects-grid {
+        grid-template-columns: 1fr;
       }
 
-      #logout-btn {
-        width: 100%;
-        margin-top: 0.8rem;
+      .subject-inputs {
+        grid-template-columns: 1fr;
       }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .goal-input {
+        flex-direction: column;
+      }
+
+      .study-time-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Motivation Messages Styles */
+    .motivation-messages-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .motivation-messages-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .motivation-message {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .message-icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .message-content h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .message-content p {
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .message-author {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .success-stories-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .success-stories-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .story-carousel {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .story {
+      display: none;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      border-left: 4px solid var(--success);
+    }
+
+    .story.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .story-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .story-avatar {
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+    }
+
+    .story-info h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .story-achievement {
+      font-size: 0.8rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .story p {
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .story-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .story-nav-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .story-nav-btn.active {
+      background: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .personal-motivation-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .personal-motivation-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .personal-tips {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      border-left: 4px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .tip-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .tip-icon {
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .tip-content h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .tip-content p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.3;
     }
   </style>
 </head>
 <body>
   <header>
-    <div>
-      <img src="./images/logo.png" alt="Öğrenci Koçluğu Logo" />
-    </div>
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <img src="./images/logo.png" alt="Öğrenci Koçluğu Logo" style="height: 40px; width: auto; object-fit: contain;" />
-      <h1>Öğrenci Koçluğu</h1>
-    </div>
-    <div>
-      <span id="user-name">...</span>
-      <button id="logout-btn">Çıkış</button>
+    <div class="header-content">
+      <div class="header-left">
+        <img src="./images/logo.png" alt="Öğrenci Koçluğu Logo" class="logo" />
+        <h1>Öğrenci Koçluğu</h1>
+      </div>
+      <div class="header-right">
+        <span id="user-name">...</span>
+        <button id="admin-btn" style="display:none;" onclick="window.location.href='./admin-panel.html'">⚙️ Admin Paneli</button>
+        <button id="logout-btn">Çıkış</button>
+      </div>
     </div>
   </header>
 
-  <section>
-    <h2>📘 Günlük Soru Çözüm Bilgileri</h2>
-    <form id="daily-form">
-      <div class="form-headers">
-        <div></div>
-        <div>Doğru ✔️</div>
-        <div>Yanlış ❌</div>
-      </div>
-      <!-- Dersler -->
-      <div class="ders-row">
-        <label for="turkce-dogru">Türkçe</label>
-        <input type="number" id="turkce-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="turkce-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <div class="ders-row">
-        <label for="matematik-dogru">Matematik</label>
-        <input type="number" id="matematik-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="matematik-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <div class="ders-row">
-        <label for="fen-dogru">Fen</label>
-        <input type="number" id="fen-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="fen-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <div class="ders-row">
-        <label for="sosyal-dogru">Sosyal</label>
-        <input type="number" id="sosyal-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="sosyal-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <div class="ders-row">
-        <label for="ingilizce-dogru">İngilizce</label>
-        <input type="number" id="ingilizce-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="ingilizce-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <div class="ders-row">
-        <label for="din-dogru">Din</label>
-        <input type="number" id="din-dogru" min="0" value="0" class="doğru" />
-        <input type="number" id="din-yanlis" min="0" value="0" class="yanlis" />
-      </div>
-      <button type="submit" class="submit-btn">💾 Kaydet</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>📅 Haftalık Özet</h2>
-    <div id="haftalik-ozet">
-      <p><strong>Toplam Doğru:</strong> <span id="haftalik-dogru">0</span></p>
-      <p><strong>Toplam Yanlış:</strong> <span id="haftalik-yanlis">0</span></p>
-      <p><strong>En Çok Çalışılan Ders:</strong> <span id="en-cok-ders">-</span></p>
-      <p><strong>En Az Çalışılan Ders:</strong> <span id="en-az-ders">-</span></p>
+  <div class="main-container">
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="dashboard"><span>🏠 Ana Sayfa</span></button>
+      <button class="tab-btn" data-tab="study"><span>📚 Çalışma Takibi</span></button>
+      <button class="tab-btn" data-tab="goals"><span>🎯 Hedefler</span></button>
+      <button class="tab-btn" data-tab="analytics"><span>📊 Analizler</span></button>
+      <button class="tab-btn" data-tab="messages"><span>💬 Mesajlar</span></button>
+      <button class="tab-btn" data-tab="coach" id="coach-tab" style="display:none;"><span>👨‍🏫 Koç Paneli</span></button>
     </div>
-  </section>
 
-  <section>
-    <h2>📊 Haftalık Performans (Doğru Sayıları)</h2>
-    <canvas id="dogruChart"></canvas>
-  </section>
+    <!-- Dashboard Tab -->
+    <div id="dashboard" class="tab-content active">
+      <div class="dashboard-grid">
+        <div class="main-content">
+          <!-- Gamification Section -->
+          <div class="card">
+            <h2>🏆 Başarılarım ve Seviyem</h2>
+            <div class="gamification-grid">
+              <!-- Level Progress -->
+              <div class="level-card">
+                <div class="level-info">
+                  <div class="level-badge">
+                    <span class="level-number">7</span>
+                    <span class="level-title">Altın</span>
+                  </div>
+                  <div class="level-details">
+                    <h3>Seviye 7 - Altın Öğrenci</h3>
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <p>Sonraki seviyeye: 250 puan daha</p>
+                  </div>
+                </div>
+                <div class="total-points">
+                  <span class="points-number">1,750</span>
+                  <span class="points-label">Toplam Puan</span>
+                </div>
+              </div>
 
-  <section>
-    <h2>📈 Haftalık Performans (Yanlış Sayıları)</h2>
-    <canvas id="yanlisChart"></canvas>
-  </section>
+              <!-- Daily Streak -->
+              <div class="streak-card">
+                <div class="streak-icon">🔥</div>
+                <div class="streak-info">
+                  <h3>Çalışma Serisi</h3>
+                  <div class="streak-number">12</div>
+                  <p>gün üst üste çalıştın!</p>
+                </div>
+              </div>
 
-  <section id="koc-panel" style="display:none;">
-    <h2>👨‍🏫 Koç Paneli - Öğrenci Seçimi</h2>
-    <select id="ogrenci-secim">
-      <option value="">Öğrenci seçiniz</option>
-    </select>
-    <canvas id="koc-dogruChart"></canvas>
-    <canvas id="koc-yanlisChart" style="margin-top: 1rem;"></canvas>
-  </section>
+              <!-- Today's Goal -->
+              <div class="goal-progress-card">
+                <h3>🎯 Bugünkü Hedef</h3>
+                <div class="goal-progress">
+                  <div class="goal-text">50 soru çöz</div>
+                  <div class="goal-bar">
+                    <div class="goal-fill" style="width: 60%"></div>
+                  </div>
+                  <div class="goal-status">30/50 tamamlandı</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <section id="mesajlasma-paneli">
-    <h2>💬 Mesajlaşma Paneli</h2>
-    <select id="alici-select">
-      <option value="">Mesaj göndermek için öğrenci veya koç seçiniz</option>
-    </select>
-    <div id="mesaj-listesi"></div>
-    <form id="mesaj-form">
-      <input type="text" id="mesaj-input" placeholder="Mesajınızı yazın..." autocomplete="off" />
-      <button type="submit" id="mesaj-gonder-btn">Gönder</button>
-    </form>
-  </section>
+          <!-- Badges Section -->
+          <div class="card">
+            <h2>🏅 Başarı Rozetleri</h2>
+            <div class="badges-grid">
+              <div class="badge earned">
+                <div class="badge-icon">📚</div>
+                <div class="badge-info">
+                  <h4>Kitap Kurdu</h4>
+                  <p>100 Türkçe sorusu çözdün</p>
+                </div>
+              </div>
+              <div class="badge earned">
+                <div class="badge-icon">🔢</div>
+                <div class="badge-info">
+                  <h4>Matematik Dehası</h4>
+                  <p>500 matematik sorusu çözdün</p>
+                </div>
+              </div>
+              <div class="badge earned">
+                <div class="badge-icon">🔥</div>
+                <div class="badge-info">
+                  <h4>Ateş Gibi</h4>
+                  <p>7 gün üst üste çalıştın</p>
+                </div>
+              </div>
+              <div class="badge locked">
+                <div class="badge-icon">⚡</div>
+                <div class="badge-info">
+                  <h4>Hız Ustası</h4>
+                  <p>1 günde 100 soru çöz</p>
+                </div>
+              </div>
+              <div class="badge locked">
+                <div class="badge-icon">🎯</div>
+                <div class="badge-info">
+                  <h4>Keskin Nişancı</h4>
+                  <p>%90 doğruluk oranına ulaş</p>
+                </div>
+              </div>
+              <div class="badge locked">
+                <div class="badge-icon">🌟</div>
+                <div class="badge-info">
+                  <h4>Yıldız Öğrenci</h4>
+                  <p>Seviye 10'a ulaş</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="card">
+            <h2>📊 Hızlı İstatistikler</h2>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number" id="haftalik-dogru">0</div>
+                <div class="stat-label">Bu Hafta Doğru</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="haftalik-yanlis">0</div>
+                <div class="stat-label">Bu Hafta Yanlış</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="en-cok-ders">-</div>
+                <div class="stat-label">En İyi Ders</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="en-az-ders">-</div>
+                <div class="stat-label">Geliştirilecek</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Study Plan -->
+          <div class="card">
+            <h2>📝 Bugünkü Çalışma Planı</h2>
+            <div class="subjects-grid">
+              <div class="subject-card" style="--subject-color: #ff6b6b;">
+                <div class="subject-header">
+                  <div class="subject-icon">📚</div>
+                  <div class="subject-name">Türkçe</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="turkce-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="turkce-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="subject-card" style="--subject-color: #4ecdc4;">
+                <div class="subject-header">
+                  <div class="subject-icon">🔢</div>
+                  <div class="subject-name">Matematik</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="matematik-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="matematik-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="subject-card" style="--subject-color: #96ceb4;">
+                <div class="subject-header">
+                  <div class="subject-icon">🔬</div>
+                  <div class="subject-name">Fen Bilimleri</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="fen-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="fen-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="subject-card" style="--subject-color: #feca57;">
+                <div class="subject-header">
+                  <div class="subject-icon">🌍</div>
+                  <div class="subject-name">Sosyal Bilgiler</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="sosyal-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="sosyal-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="subject-card" style="--subject-color: #a55eea;">
+                <div class="subject-header">
+                  <div class="subject-icon">🇬🇧</div>
+                  <div class="subject-name">İngilizce</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="ingilizce-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="ingilizce-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="subject-card" style="--subject-color: #fd79a8;">
+                <div class="subject-header">
+                  <div class="subject-icon">🕌</div>
+                  <div class="subject-name">Din Kültürü</div>
+                </div>
+                <div class="subject-inputs">
+                  <div class="input-group">
+                    <label>✅ Doğru</label>
+                    <input type="number" id="din-dogru" min="0" value="0" class="doğru" />
+                  </div>
+                  <div class="input-group">
+                    <label>❌ Yanlış</label>
+                    <input type="number" id="din-yanlis" min="0" value="0" class="yanlis" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="saveDailyData()">💾 Bugünkü Verileri Kaydet!</button>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <!-- Motivation Card -->
+          <div class="motivation-card">
+            <div class="motivation-text">🚀 Bugün Harika Bir Gün!</div>
+            <div class="motivation-quote">"Başarı, her gün küçük adımlar atmaktır."</div>
+          </div>
+
+          <!-- Daily Motivation Messages -->
+          <div class="motivation-messages-card">
+            <h3>💪 Günlük Motivasyon</h3>
+            <div class="motivation-message">
+              <div class="message-icon">🌟</div>
+              <div class="message-content">
+                <h4>Bugünün Mesajı</h4>
+                <p id="daily-motivation">"Her başarısızlık, başarıya giden yolda bir adımdır. Bugün kendine inan ve devam et!"</p>
+                <div class="message-author">- Motivasyon Koçu</div>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="newMotivationMessage()">🔄 Yeni Mesaj</button>
+          </div>
+
+          <!-- Success Stories -->
+          <div class="success-stories-card">
+            <h3>🏆 Başarı Hikayeleri</h3>
+            <div class="story-carousel">
+              <div class="story active">
+                <div class="story-header">
+                  <div class="story-avatar">👨‍🎓</div>
+                  <div class="story-info">
+                    <h4>Ahmet Yılmaz</h4>
+                    <span class="story-achievement">Seviye 10'a ulaştı!</span>
+                  </div>
+                </div>
+                <p>"3 ay önce seviye 3'teydim, bugün seviye 10'a ulaştım. İnanılmaz bir yolculuk!"</p>
+              </div>
+              <div class="story">
+                <div class="story-header">
+                  <div class="story-avatar">👩‍🎓</div>
+                  <div class="story-info">
+                    <h4>Zeynep Kaya</h4>
+                    <span class="story-achievement">%95 doğruluk oranı!</span>
+                  </div>
+                </div>
+                <p>"Matematikte çok zorlanıyordum, şimdi en sevdiğim ders oldu!"</p>
+              </div>
+              <div class="story">
+                <div class="story-header">
+                  <div class="story-avatar">👨‍🎓</div>
+                  <div class="story-info">
+                    <h4>Mehmet Demir</h4>
+                    <span class="story-achievement">30 gün üst üste çalıştı!</span>
+                  </div>
+                </div>
+                <p>"Düzenli çalışma alışkanlığı kazandım, artık her gün çalışmak istiyorum!"</p>
+              </div>
+            </div>
+            <div class="story-nav">
+              <button class="story-nav-btn active" onclick="showStory(0)">●</button>
+              <button class="story-nav-btn" onclick="showStory(1)">●</button>
+              <button class="story-nav-btn" onclick="showStory(2)">●</button>
+            </div>
+          </div>
+
+          <!-- Personalized Motivation -->
+          <div class="personal-motivation-card">
+            <h3>🎯 Senin İçin Özel</h3>
+            <div class="personal-tips">
+              <div class="tip-item">
+                <div class="tip-icon">📚</div>
+                <div class="tip-content">
+                  <h4>Matematik İçin İpucu</h4>
+                  <p>Kesirler konusunda zorlanıyorsun. Görsel materyaller kullanmayı dene!</p>
+                </div>
+              </div>
+              <div class="tip-item">
+                <div class="tip-icon">⏰</div>
+                <div class="tip-content">
+                  <h4>Zaman Yönetimi</h4>
+                  <p>En verimli çalışma saatin 14:00-16:00 arası. Bu saatleri değerlendir!</p>
+                </div>
+              </div>
+              <div class="tip-item">
+                <div class="tip-icon">🎯</div>
+                <div class="tip-content">
+                  <h4>Hedef Belirleme</h4>
+                  <p>Günlük 50 soru hedefin var. Bugün 30 soru çözdün, 20 soru daha!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Challenges -->
+          <div class="challenges-card">
+            <h3>🎯 Günlük Görevler</h3>
+            <div class="challenge-list">
+              <div class="challenge completed">
+                <div class="challenge-icon">✅</div>
+                <div class="challenge-text">30 matematik sorusu çöz</div>
+              </div>
+              <div class="challenge in-progress">
+                <div class="challenge-icon">⏳</div>
+                <div class="challenge-text">2 saat çalış</div>
+                <div class="challenge-progress">1.5/2 saat</div>
+              </div>
+              <div class="challenge locked">
+                <div class="challenge-icon">🔒</div>
+                <div class="challenge-text">%80 doğruluk oranına ulaş</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Goal Setting -->
+          <div class="goal-card">
+            <h3>🎯 Günlük Hedef</h3>
+            <div class="goal-input">
+              <input type="number" id="daily-goal" placeholder="Hedef soru sayısı" min="1" />
+              <select id="goal-subject">
+                <option value="">Ders seç</option>
+                <option value="turkce">Türkçe</option>
+                <option value="matematik">Matematik</option>
+                <option value="fen">Fen</option>
+                <option value="sosyal">Sosyal</option>
+                <option value="ingilizce">İngilizce</option>
+                <option value="din">Din</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="setGoal()">Hedef Belirle</button>
+          </div>
+
+          <!-- Notes -->
+          <div class="notes-section">
+            <h3>📝 Günlük Notlar</h3>
+            <textarea id="daily-notes" placeholder="Bugün neler öğrendin? Hangi konularda zorlandın? Notlarını buraya yazabilirsin..."></textarea>
+            <button class="btn btn-primary" onclick="saveNotes()">Notları Kaydet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Study Tab -->
+    <div id="study" class="tab-content">
+      <!-- Weekly Study Plan -->
+      <div class="card">
+        <h2>📅 Haftalık Çalışma Planı</h2>
+        <div class="weekly-plan">
+          <div class="plan-header">
+            <button class="plan-nav-btn" onclick="previousWeek()">◀️</button>
+            <h3>Bu Hafta (8-14 Ağustos)</h3>
+            <button class="plan-nav-btn" onclick="nextWeek()">▶️</button>
+          </div>
+          <div class="week-grid">
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Pazartesi</span>
+                <span class="day-date">8 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">Matematik - 30 soru</span>
+                </div>
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">Türkçe - 25 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Fen - 20 soru</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 67%"></div>
+                </div>
+                <span class="progress-text">2/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Salı</span>
+                <span class="day-date">9 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">Sosyal - 20 soru</span>
+                </div>
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">İngilizce - 15 soru</span>
+                </div>
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">Din - 10 soru</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+                <span class="progress-text">3/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Çarşamba</span>
+                <span class="day-date">10 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task completed">
+                  <span class="task-icon">✅</span>
+                  <span class="task-text">Matematik - 35 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Fen - 25 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Türkçe - 20 soru</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 33%"></div>
+                </div>
+                <span class="progress-text">1/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Perşembe</span>
+                <span class="day-date">11 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Sosyal - 30 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">İngilizce - 20 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Din - 15 soru</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Cuma</span>
+                <span class="day-date">12 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Matematik - 40 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Fen - 30 soru</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Türkçe - 25 soru</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Cumartesi</span>
+                <span class="day-date">13 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Genel Tekrar</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Test Çözümü</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Eksik Konular</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0/3 tamamlandı</span>
+              </div>
+            </div>
+
+            <div class="day-card">
+              <div class="day-header">
+                <span class="day-name">Pazar</span>
+                <span class="day-date">14 Ağu</span>
+              </div>
+              <div class="day-tasks">
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Dinlenme</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Haftalık Özet</span>
+                </div>
+                <div class="task pending">
+                  <span class="task-icon">⏳</span>
+                  <span class="task-text">Gelecek Plan</span>
+                </div>
+              </div>
+              <div class="day-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0/3 tamamlandı</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Timer -->
+      <div class="card">
+        <h2>⏱️ Çalışma Zamanlayıcısı</h2>
+        <div class="timer-container">
+          <div class="timer-display">
+            <div class="timer-time">25:00</div>
+            <div class="timer-label">Pomodoro Süresi</div>
+          </div>
+          <div class="timer-controls">
+            <button class="timer-btn start" onclick="startTimer()">▶️ Başlat</button>
+            <button class="timer-btn pause" onclick="pauseTimer()" disabled>⏸️ Duraklat</button>
+            <button class="timer-btn reset" onclick="resetTimer()">🔄 Sıfırla</button>
+          </div>
+          <div class="timer-settings">
+            <div class="setting-item">
+              <label>Çalışma Süresi (dk):</label>
+              <input type="number" id="workTime" value="25" min="5" max="60">
+            </div>
+            <div class="setting-item">
+              <label>Mola Süresi (dk):</label>
+              <input type="number" id="breakTime" value="5" min="1" max="30">
+            </div>
+            <div class="setting-item">
+              <label>Uzun Mola (dk):</label>
+              <input type="number" id="longBreakTime" value="15" min="5" max="60">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Reminders -->
+      <div class="card">
+        <h2>🔔 Çalışma Hatırlatıcıları</h2>
+        <div class="reminders-container">
+          <div class="reminder-list">
+            <div class="reminder active">
+              <div class="reminder-icon">⏰</div>
+              <div class="reminder-content">
+                <h4>Matematik Çalışma Zamanı</h4>
+                <p>Her gün 14:00'da matematik çalışmaya başla</p>
+              </div>
+              <div class="reminder-status">Aktif</div>
+            </div>
+            <div class="reminder active">
+              <div class="reminder-icon">📚</div>
+              <div class="reminder-content">
+                <h4>Günlük Hedef Kontrolü</h4>
+                <p>Her akşam 20:00'da günlük hedefleri kontrol et</p>
+              </div>
+              <div class="reminder-status">Aktif</div>
+            </div>
+            <div class="reminder inactive">
+              <div class="reminder-icon">🏃</div>
+              <div class="reminder-content">
+                <h4>Mola Zamanı</h4>
+                <p>Her 25 dakikada bir 5 dakika mola ver</p>
+              </div>
+              <div class="reminder-status">Pasif</div>
+            </div>
+          </div>
+          <div class="add-reminder">
+            <h3>Yeni Hatırlatıcı Ekle</h3>
+            <div class="reminder-form">
+              <input type="text" placeholder="Hatırlatıcı başlığı" id="reminderTitle">
+              <input type="time" id="reminderTime">
+              <textarea placeholder="Açıklama" id="reminderDesc"></textarea>
+              <button class="btn btn-primary" onclick="addReminder()">Hatırlatıcı Ekle</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Statistics -->
+      <div class="card">
+        <h2>📊 Çalışma İstatistikleri</h2>
+        <div class="study-stats-grid">
+          <div class="study-stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div class="stat-info">
+              <div class="stat-number">12.5</div>
+              <div class="stat-label">Bu Hafta Toplam Saat</div>
+            </div>
+          </div>
+          <div class="study-stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-info">
+              <div class="stat-number">85%</div>
+              <div class="stat-label">Hedef Tamamlama</div>
+            </div>
+          </div>
+          <div class="study-stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-info">
+              <div class="stat-number">7</div>
+              <div class="stat-label">Üst Üste Çalışma Günü</div>
+            </div>
+          </div>
+          <div class="study-stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+              <div class="stat-number">+20%</div>
+              <div class="stat-label">Geçen Haftaya Göre</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Break Suggestions -->
+      <div class="card">
+        <h2>☕ Mola Önerileri</h2>
+        <div class="break-suggestions">
+          <div class="break-card">
+            <div class="break-icon">🧘</div>
+            <div class="break-content">
+              <h3>Göz Egzersizi</h3>
+              <p>20 saniye uzak bir noktaya bak, gözlerini dinlendir</p>
+              <button class="break-btn" onclick="startBreak('eye')">Başlat</button>
+            </div>
+          </div>
+          <div class="break-card">
+            <div class="break-icon">💧</div>
+            <div class="break-content">
+              <h3>Su İçme Molası</h3>
+              <p>Bir bardak su iç ve biraz yürü</p>
+              <button class="break-btn" onclick="startBreak('water')">Başlat</button>
+            </div>
+          </div>
+          <div class="break-card">
+            <div class="break-icon">🏃</div>
+            <div class="break-content">
+              <h3>Hızlı Egzersiz</h3>
+              <p>5 dakika basit egzersiz yap</p>
+              <button class="break-btn" onclick="startBreak('exercise')">Başlat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goals Tab -->
+    <div id="goals" class="tab-content">
+      <div class="card">
+        <h2>🎯 Hedef Belirleme ve Takip</h2>
+        <div class="dashboard-grid">
+          <div class="main-content">
+            <div class="goal-card">
+              <h3>📅 Haftalık Hedefler</h3>
+              <div class="goal-input">
+                <input type="text" id="weekly-goal" placeholder="Haftalık hedefin nedir?" />
+                <select id="weekly-priority">
+                  <option value="">Öncelik seviyesi</option>
+                  <option value="high">Yüksek</option>
+                  <option value="medium">Orta</option>
+                  <option value="low">Düşük</option>
+                </select>
+              </div>
+              <button class="btn btn-primary">Hedef Ekle</button>
+            </div>
+          </div>
+          <div class="sidebar">
+            <div class="motivation-card">
+              <div class="motivation-text">🎯 Hedeflerine Odaklan!</div>
+              <div class="motivation-quote">"Büyük hedefler, küçük adımlarla gerçekleşir."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div id="analytics" class="tab-content">
+      <!-- Performance Overview -->
+      <div class="card">
+        <h2>📊 Performans Genel Bakış</h2>
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <div class="analytics-icon">📈</div>
+            <div class="analytics-info">
+              <h3>Bu Hafta</h3>
+              <div class="analytics-number">+15%</div>
+              <p>Geçen haftaya göre artış</p>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <div class="analytics-icon">🎯</div>
+            <div class="analytics-info">
+              <h3>Doğruluk Oranı</h3>
+              <div class="analytics-number">78%</div>
+              <p>Genel başarı oranı</p>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <div class="analytics-icon">⏱️</div>
+            <div class="analytics-info">
+              <h3>Çalışma Süresi</h3>
+              <div class="analytics-number">2.5s</div>
+              <p>Günlük ortalama</p>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <div class="analytics-icon">🔥</div>
+            <div class="analytics-info">
+              <h3>Motivasyon</h3>
+              <div class="analytics-number">85%</div>
+              <p>Bu hafta motivasyon</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subject Performance -->
+      <div class="card">
+        <h2>📚 Ders Bazlı Performans</h2>
+        <div class="subject-analytics">
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #ff6b6b;">📚</div>
+              <div class="subject-name">Türkçe</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">45</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">12</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value success">79%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↗️</span>
+              <span class="trend-text">+8% geçen haftaya göre</span>
+            </div>
+          </div>
+
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #4ecdc4;">🔢</div>
+              <div class="subject-name">Matematik</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">38</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">15</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value warning">72%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↘️</span>
+              <span class="trend-text">-3% geçen haftaya göre</span>
+            </div>
+          </div>
+
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #96ceb4;">🔬</div>
+              <div class="subject-name">Fen Bilimleri</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">52</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">8</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value success">87%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↗️</span>
+              <span class="trend-text">+12% geçen haftaya göre</span>
+            </div>
+          </div>
+
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #feca57;">🌍</div>
+              <div class="subject-name">Sosyal Bilgiler</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">41</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">9</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value success">82%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↗️</span>
+              <span class="trend-text">+5% geçen haftaya göre</span>
+            </div>
+          </div>
+
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #a55eea;">🇬🇧</div>
+              <div class="subject-name">İngilizce</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">35</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">18</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value error">66%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↘️</span>
+              <span class="trend-text">-7% geçen haftaya göre</span>
+            </div>
+          </div>
+
+          <div class="subject-performance-card">
+            <div class="subject-header">
+              <div class="subject-icon" style="background: #fd79a8;">🕌</div>
+              <div class="subject-name">Din Kültürü</div>
+            </div>
+            <div class="performance-stats">
+              <div class="stat-item">
+                <span class="stat-label">Doğru</span>
+                <span class="stat-value">48</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Yanlış</span>
+                <span class="stat-value">7</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Başarı</span>
+                <span class="stat-value success">87%</span>
+              </div>
+            </div>
+            <div class="performance-trend">
+              <span class="trend-arrow">↗️</span>
+              <span class="trend-text">+9% geçen haftaya göre</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Progress Charts -->
+      <div class="card">
+        <h2>📈 Haftalık İlerleme Grafikleri</h2>
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3>Doğru Cevap Sayıları</h3>
+            <canvas id="dogruChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3>Yanlış Cevap Sayıları</h3>
+            <canvas id="yanlisChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Topic Analysis -->
+      <div class="card">
+        <h2>🎯 Konu Bazlı Analiz</h2>
+        <div class="topic-analysis">
+          <div class="topic-card strong">
+            <div class="topic-header">
+              <h3>💪 Güçlü Konular</h3>
+            </div>
+            <div class="topic-list">
+              <div class="topic-item">
+                <span class="topic-name">Kesirler</span>
+                <span class="topic-score">92%</span>
+              </div>
+              <div class="topic-item">
+                <span class="topic-name">Cümle Yapısı</span>
+                <span class="topic-score">88%</span>
+              </div>
+              <div class="topic-item">
+                <span class="topic-name">Maddenin Halleri</span>
+                <span class="topic-score">85%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="topic-card weak">
+            <div class="topic-header">
+              <h3>⚠️ Geliştirilecek Konular</h3>
+            </div>
+            <div class="topic-list">
+              <div class="topic-item">
+                <span class="topic-name">Cebirsel İfadeler</span>
+                <span class="topic-score">45%</span>
+              </div>
+              <div class="topic-item">
+                <span class="topic-name">İngilizce Gramer</span>
+                <span class="topic-score">52%</span>
+              </div>
+              <div class="topic-item">
+                <span class="topic-name">Geometri</span>
+                <span class="topic-score">58%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Study Time Analysis -->
+      <div class="card">
+        <h2>⏰ Çalışma Zamanı Analizi</h2>
+        <div class="study-time-grid">
+          <div class="time-card">
+            <h3>Günlük Çalışma Süresi</h3>
+            <div class="time-chart">
+              <canvas id="studyTimeChart"></canvas>
+            </div>
+          </div>
+          <div class="time-stats">
+            <div class="time-stat">
+              <div class="time-icon">🌅</div>
+              <div class="time-info">
+                <h4>En Verimli Saat</h4>
+                <p>14:00 - 16:00</p>
+              </div>
+            </div>
+            <div class="time-stat">
+              <div class="time-icon">📅</div>
+              <div class="time-info">
+                <h4>En Çok Çalıştığın Gün</h4>
+                <p>Salı</p>
+              </div>
+            </div>
+            <div class="time-stat">
+              <div class="time-icon">🎯</div>
+              <div class="time-info">
+                <h4>Hedef Süre</h4>
+                <p>3 saat/gün</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison -->
+      <div class="card">
+        <h2>🏆 Sınıf Karşılaştırması</h2>
+        <div class="comparison-grid">
+          <div class="comparison-card">
+            <h3>Senin Performansın</h3>
+            <div class="comparison-score">78%</div>
+            <div class="comparison-rank">Sınıf 3.sü</div>
+          </div>
+          <div class="comparison-card">
+            <h3>Sınıf Ortalaması</h3>
+            <div class="comparison-score">72%</div>
+            <div class="comparison-rank">+6% üzerinde</div>
+          </div>
+          <div class="comparison-card">
+            <h3>En İyi Öğrenci</h3>
+            <div class="comparison-score">85%</div>
+            <div class="comparison-rank">7% geride</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Tab -->
+    <div id="messages" class="tab-content">
+      <div class="card">
+        <h2>💬 Koçunla İletişim</h2>
+        <div class="messaging-container">
+          <select id="alici-select">
+            <option value="">Mesaj göndermek için koç seçiniz</option>
+          </select>
+          <div id="mesaj-listesi"></div>
+          <form id="mesaj-form">
+            <input type="text" id="mesaj-input" placeholder="Mesajınızı yazın..." autocomplete="off" />
+            <button type="submit" id="mesaj-gonder-btn">Gönder</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coach Tab -->
+    <div id="coach" class="tab-content">
+      <div class="card">
+        <h2>👨‍🏫 Koç Paneli - Öğrenci Takibi</h2>
+        <select id="ogrenci-secim" style="width: 100%; padding: 1rem; margin-bottom: 1.5rem; border: 2px solid var(--border); border-radius: 15px; background: rgba(255, 255, 255, 0.8);">
+          <option value="">Öğrenci seçiniz</option>
+        </select>
+        <div class="chart-container">
+          <canvas id="koc-dogruChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="koc-yanlisChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="./dashboard.js"></script>
   <script type="module" src="./messages.js"></script>
+  <script type="module" src="./gamification.js"></script>
+  <script type="module" src="./study-plan.js"></script>
+  <script>
+    // Import gamification functions
+    import { loadGamificationData, updatePoints, updateStreak, unlockBadge, updateDailyChallenges } from './gamification.js';
+    
+    // Import study plan functions
+    import { 
+      loadStudyPlan, 
+      updateStudyPlan, 
+      completeTask, 
+      startStudySession, 
+      endStudySession,
+      saveStudyStatistics,
+      createUserGoal,
+      updateGoalProgress,
+      getUserGoals,
+      getStudySessions,
+      getWeeklyStudyStats,
+      getWeekStart,
+      formatDuration,
+      calculateProgress
+    } from './study-plan.js';
+
+    // Tab functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.getAttribute('data-tab');
+          
+          // Remove active class from all tabs
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          btn.classList.add('active');
+          document.getElementById(targetTab).classList.add('active');
+        });
+      });
+    });
+
+    // Additional functions for new features
+    async function saveDailyData() {
+      // Save daily study data
+      console.log('Günlük veriler kaydedildi');
+      
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      
+      // Calculate points and update gamification
+      const { totalPoints, totalCorrect, totalWrong } = calculatePoints();
+      
+      // Update gamification data
+      await updatePoints(user.id, totalPoints);
+      await updateStreak(user.id);
+      
+      // Check and unlock badges
+      await checkBadges(user.id);
+      await updateDailyChallenges(user.id, getCurrentChallenges());
+      
+      // Update UI
+      updateGamificationUI();
+    }
+
+    function setGoal() {
+      const goal = document.getElementById('daily-goal').value;
+      const subject = document.getElementById('goal-subject').value;
+      console.log('Hedef belirlendi:', goal, 'soru', subject, 'dersi için');
+      
+      // Update goal progress
+      updateGoalProgress(goal, subject);
+    }
+
+    function saveNotes() {
+      const notes = document.getElementById('daily-notes').value;
+      console.log('Notlar kaydedildi:', notes);
+    }
+
+    // Updated gamification functions
+    async function calculatePoints() {
+      const subjects = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din'];
+      let totalPoints = 0;
+      let totalCorrect = 0;
+      let totalWrong = 0;
+
+      subjects.forEach(subject => {
+        const correct = parseInt(document.getElementById(`${subject}-dogru`).value) || 0;
+        const wrong = parseInt(document.getElementById(`${subject}-yanlis`).value) || 0;
+        
+        // Points calculation: 10 points per correct answer, -2 points per wrong answer
+        const subjectPoints = (correct * 10) - (wrong * 2);
+        totalPoints += subjectPoints;
+        totalCorrect += correct;
+        totalWrong += wrong;
+      });
+
+      return { totalPoints, totalCorrect, totalWrong };
+    }
+
+    async function updateGamificationUI() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const gamificationData = await loadGamificationData(user.id);
+      
+      // Update level display
+      const levelNumber = document.querySelector('.level-number');
+      const levelTitle = document.querySelector('.level-title');
+      const pointsNumber = document.querySelector('.points-number');
+      const streakNumber = document.querySelector('.streak-number');
+      
+      if (levelNumber) levelNumber.textContent = gamificationData.current_level;
+      if (pointsNumber) pointsNumber.textContent = gamificationData.total_points.toLocaleString();
+      if (streakNumber) streakNumber.textContent = gamificationData.streak_days;
+      
+      // Update level title
+      const levelNames = {
+        1: 'Bronz', 2: 'Bronz', 3: 'Gümüş', 4: 'Gümüş', 5: 'Altın',
+        6: 'Altın', 7: 'Altın', 8: 'Platin', 9: 'Platin', 10: 'Elmas'
+      };
+      if (levelTitle) levelTitle.textContent = levelNames[gamificationData.current_level] || 'Bronz';
+    }
+
+    async function checkBadges(userId) {
+      const subjects = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din'];
+      let totalCorrect = 0;
+      let totalWrong = 0;
+
+      subjects.forEach(subject => {
+        const correct = parseInt(document.getElementById(`${subject}-dogru`).value) || 0;
+        const wrong = parseInt(document.getElementById(`${subject}-yanlis`).value) || 0;
+        totalCorrect += correct;
+        totalWrong += wrong;
+      });
+
+      const accuracy = totalCorrect + totalWrong > 0 ? (totalCorrect / (totalCorrect + totalWrong)) * 100 : 0;
+
+      // Check specific badges
+      const badges = {
+        'turkce': { name: 'Kitap Kurdu', condition: () => getSubjectTotal('turkce') >= 100 },
+        'matematik': { name: 'Matematik Dehası', condition: () => getSubjectTotal('matematik') >= 500 },
+        'streak': { name: 'Ateş Gibi', condition: () => getStreak() >= 7 },
+        'speed': { name: 'Hız Ustası', condition: () => totalCorrect + totalWrong >= 100 },
+        'accuracy': { name: 'Keskin Nişancı', condition: () => accuracy >= 90 },
+        'level': { name: 'Yıldız Öğrenci', condition: () => getCurrentLevel() >= 10 }
+      };
+
+      // Check and unlock badges
+      for (const [badgeKey, badge] of Object.entries(badges)) {
+        if (badge.condition()) {
+          await unlockBadge(userId, badgeKey, badge.name);
+        }
+      }
+    }
+
+    function getCurrentChallenges() {
+      // Get current challenge status from UI
+      const challenges = document.querySelectorAll('.challenge');
+      const completed = [];
+      const inProgress = [];
+      const locked = [];
+
+      challenges.forEach(challenge => {
+        const text = challenge.querySelector('.challenge-text').textContent;
+        if (challenge.classList.contains('completed')) {
+          completed.push(text);
+        } else if (challenge.classList.contains('in-progress')) {
+          inProgress.push(text);
+        } else if (challenge.classList.contains('locked')) {
+          locked.push(text);
+        }
+      });
+
+      return { completed, in_progress: inProgress, locked };
+    }
+
+    // Initialize gamification on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Initialize existing tab functionality
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.getAttribute('data-tab');
+          
+          // Remove active class from all tabs
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          btn.classList.add('active');
+          document.getElementById(targetTab).classList.add('active');
+        });
+      });
+
+      // Initialize gamification UI
+      await updateGamificationUI();
+      
+      // Initialize motivation system
+      initializeMotivation();
+      
+      // Initialize study plan system
+      await initializeStudyPlan();
+    });
+
+    // Study Plan Functions
+    async function initializeStudyPlan() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const currentWeekStart = getWeekStart();
+      const studyPlan = await loadStudyPlan(user.id, currentWeekStart);
+      
+      // Update study plan UI
+      updateStudyPlanUI(studyPlan);
+      
+      // Initialize timer
+      initializeTimer();
+      
+      // Load user goals
+      const goals = await getUserGoals(user.id);
+      updateGoalsUI(goals);
+      
+      // Load study sessions
+      const sessions = await getStudySessions(user.id, 5);
+      updateSessionsUI(sessions);
+    }
+
+    function updateStudyPlanUI(studyPlan) {
+      const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+      const dayNames = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+      
+      days.forEach((day, index) => {
+        const dayCard = document.querySelector(`[data-day="${day}"]`);
+        if (!dayCard) return;
+        
+        const dayData = studyPlan.daily_goals[day];
+        if (!dayData) return;
+        
+        // Update day name and date
+        const dayName = dayCard.querySelector('.day-name');
+        const dayDate = dayCard.querySelector('.day-date');
+        if (dayName) dayName.textContent = dayNames[index];
+        
+        // Calculate date for this day
+        const weekStart = new Date(studyPlan.week_start);
+        const dayDate_obj = new Date(weekStart);
+        dayDate_obj.setDate(weekStart.getDate() + index);
+        if (dayDate) dayDate.textContent = dayDate_obj.toLocaleDateString('tr-TR');
+        
+        // Update tasks
+        const tasksContainer = dayCard.querySelector('.day-tasks');
+        if (tasksContainer && dayData.tasks) {
+          tasksContainer.innerHTML = '';
+          dayData.tasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = `task ${task.completed ? 'completed' : ''}`;
+            taskElement.innerHTML = `
+              <div class="task-icon">${task.completed ? '✅' : '⏳'}</div>
+              <div class="task-text">${task.text}</div>
+            `;
+            taskElement.addEventListener('click', () => toggleTask(studyPlan.user_id, studyPlan.week_start, day, task.id));
+            tasksContainer.appendChild(taskElement);
+          });
+        }
+        
+        // Update progress
+        const progressBar = dayCard.querySelector('.day-progress');
+        if (progressBar && dayData.tasks) {
+          const completedTasks = dayData.tasks.filter(task => task.completed).length;
+          const totalTasks = dayData.tasks.length;
+          const progress = calculateProgress(completedTasks, totalTasks);
+          progressBar.style.width = `${progress}%`;
+        }
+      });
+    }
+
+    async function toggleTask(userId, weekStart, day, taskId) {
+      const success = await completeTask(userId, weekStart, day, taskId);
+      if (success) {
+        // Reload study plan
+        const studyPlan = await loadStudyPlan(userId, weekStart);
+        updateStudyPlanUI(studyPlan);
+      }
+    }
+
+    function initializeTimer() {
+      let timer = null;
+      let timeLeft = 25 * 60; // 25 minutes default
+      let isRunning = false;
+      let currentSession = null;
+
+      const timerDisplay = document.querySelector('.timer-time');
+      const startBtn = document.querySelector('.timer-start');
+      const pauseBtn = document.querySelector('.timer-pause');
+      const resetBtn = document.querySelector('.timer-reset');
+      const subjectSelect = document.querySelector('.timer-subject');
+
+      function updateDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        if (timerDisplay) {
+          timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }
+
+      async function startTimer() {
+        if (isRunning) return;
+        
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const subject = subjectSelect ? subjectSelect.value : 'genel';
+        currentSession = await startStudySession(user.id, subject, 'pomodoro');
+        
+        if (!currentSession) return;
+
+        isRunning = true;
+        timer = setInterval(() => {
+          timeLeft--;
+          updateDisplay();
+          
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            isRunning = false;
+            endTimer();
+          }
+        }, 1000);
+        
+        if (startBtn) startBtn.style.display = 'none';
+        if (pauseBtn) pauseBtn.style.display = 'inline-block';
+      }
+
+      async function pauseTimer() {
+        if (!isRunning) return;
+        
+        clearInterval(timer);
+        isRunning = false;
+        
+        if (startBtn) startBtn.style.display = 'inline-block';
+        if (pauseBtn) pauseBtn.style.display = 'none';
+      }
+
+      async function endTimer() {
+        if (currentSession) {
+          const duration = 25 * 60 - timeLeft; // 25 minutes - time left
+          await endStudySession(currentSession.id, Math.floor(duration / 60), 0, 0, 'Pomodoro session completed');
+          currentSession = null;
+        }
+        
+        timeLeft = 25 * 60;
+        updateDisplay();
+        isRunning = false;
+        
+        if (startBtn) startBtn.style.display = 'inline-block';
+        if (pauseBtn) pauseBtn.style.display = 'none';
+        
+        // Show completion notification
+        showTimerNotification('Pomodoro oturumu tamamlandı! 🎉');
+      }
+
+      function resetTimer() {
+        clearInterval(timer);
+        timeLeft = 25 * 60;
+        updateDisplay();
+        isRunning = false;
+        currentSession = null;
+        
+        if (startBtn) startBtn.style.display = 'inline-block';
+        if (pauseBtn) pauseBtn.style.display = 'none';
+      }
+
+      // Event listeners
+      if (startBtn) startBtn.addEventListener('click', startTimer);
+      if (pauseBtn) pauseBtn.addEventListener('click', pauseTimer);
+      if (resetBtn) resetBtn.addEventListener('click', resetTimer);
+
+      // Initialize display
+      updateDisplay();
+    }
+
+    function showTimerNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'timer-notification';
+      notification.innerHTML = `
+        <div class="notification-content">
+          <h3>⏰ Zamanlayıcı</h3>
+          <p>${message}</p>
+        </div>
+      `;
+
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    function updateGoalsUI(goals) {
+      const goalsContainer = document.querySelector('.goals-list');
+      if (!goalsContainer) return;
+
+      goalsContainer.innerHTML = '';
+      
+      goals.forEach(goal => {
+        const goalElement = document.createElement('div');
+        goalElement.className = `goal ${goal.is_completed ? 'completed' : ''}`;
+        goalElement.innerHTML = `
+          <div class="goal-header">
+            <h4>${goal.goal_title}</h4>
+            <span class="goal-type">${goal.goal_type}</span>
+          </div>
+          <p>${goal.goal_description}</p>
+          <div class="goal-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${calculateProgress(goal.current_value, goal.target_value)}%"></div>
+            </div>
+            <span class="progress-text">${goal.current_value}/${goal.target_value}</span>
+          </div>
+        `;
+        goalsContainer.appendChild(goalElement);
+      });
+    }
+
+    function updateSessionsUI(sessions) {
+      const sessionsContainer = document.querySelector('.sessions-list');
+      if (!sessionsContainer) return;
+
+      sessionsContainer.innerHTML = '';
+      
+      sessions.forEach(session => {
+        const sessionElement = document.createElement('div');
+        sessionElement.className = 'session';
+        sessionElement.innerHTML = `
+          <div class="session-header">
+            <span class="session-subject">${session.subject}</span>
+            <span class="session-duration">${formatDuration(session.duration_minutes || 0)}</span>
+          </div>
+          <div class="session-details">
+            <span class="session-type">${session.session_type}</span>
+            <span class="session-date">${new Date(session.session_start).toLocaleDateString('tr-TR')}</span>
+          </div>
+        `;
+        sessionsContainer.appendChild(sessionElement);
+      });
+    }
+
+    // Motivation System Functions
+    function initializeMotivation() {
+      // Set initial motivation message
+      setDailyMotivation();
+      
+      // Auto-rotate success stories every 5 seconds
+      setInterval(rotateStories, 5000);
+    }
+
+    function setDailyMotivation() {
+      const motivations = [
+        "Her başarısızlık, başarıya giden yolda bir adımdır. Bugün kendine inan ve devam et!",
+        "Küçük ilerlemeler büyük başarıların temelidir. Her gün bir adım at!",
+        "Zorluklar seni güçlendirir. Bugün zor olan yarın kolay olacak!",
+        "Başarı bir yolculuktur, varış noktası değil. Her gün öğrenmeye devam et!",
+        "Kendine inan, çünkü sen yapabilirsin! Bugün harika bir gün olacak!",
+        "Her yeni gün yeni bir fırsattır. Bugünü en iyi şekilde değerlendir!",
+        "Çalışmak başarının anahtarıdır. Bugün çok çalış, yarın başar!",
+        "Hedeflerine odaklan ve asla vazgeçme. Sen başarabilirsin!",
+        "Her soru çözdüğünde bir adım daha ilerliyorsun. Devam et!",
+        "Bugünün çabası yarının başarısıdır. Çalışmaya devam et!"
+      ];
+
+      const randomMotivation = motivations[Math.floor(Math.random() * motivations.length)];
+      const motivationElement = document.getElementById('daily-motivation');
+      if (motivationElement) {
+        motivationElement.textContent = randomMotivation;
+      }
+    }
+
+    function newMotivationMessage() {
+      setDailyMotivation();
+      
+      // Add animation effect
+      const motivationElement = document.getElementById('daily-motivation');
+      if (motivationElement) {
+        motivationElement.style.animation = 'fadeIn 0.5s ease-in-out';
+        setTimeout(() => {
+          motivationElement.style.animation = '';
+        }, 500);
+      }
+    }
+
+    function showStory(index) {
+      const stories = document.querySelectorAll('.story');
+      const navBtns = document.querySelectorAll('.story-nav-btn');
+      
+      // Hide all stories
+      stories.forEach(story => story.classList.remove('active'));
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected story
+      if (stories[index]) {
+        stories[index].classList.add('active');
+        navBtns[index].classList.add('active');
+      }
+    }
+
+    function rotateStories() {
+      const stories = document.querySelectorAll('.story');
+      const currentActive = document.querySelector('.story.active');
+      let currentIndex = 0;
+      
+      if (currentActive) {
+        currentIndex = Array.from(stories).indexOf(currentActive);
+      }
+      
+      const nextIndex = (currentIndex + 1) % stories.length;
+      showStory(nextIndex);
+    }
+
+    // Update personal tips based on user performance
+    function updatePersonalTips() {
+      const subjects = ['turkce', 'matematik', 'fen', 'sosyal', 'ingilizce', 'din'];
+      let weakestSubject = '';
+      let lowestScore = 100;
+      
+      subjects.forEach(subject => {
+        const correct = parseInt(document.getElementById(`${subject}-dogru`).value) || 0;
+        const wrong = parseInt(document.getElementById(`${subject}-yanlis`).value) || 0;
+        const total = correct + wrong;
+        
+        if (total > 0) {
+          const score = (correct / total) * 100;
+          if (score < lowestScore) {
+            lowestScore = score;
+            weakestSubject = subject;
+          }
+        }
+      });
+      
+      // Update tip content based on weakest subject
+      const tipContent = document.querySelector('.tip-content p');
+      if (tipContent && weakestSubject) {
+        const subjectNames = {
+          'turkce': 'Türkçe',
+          'matematik': 'Matematik',
+          'fen': 'Fen Bilimleri',
+          'sosyal': 'Sosyal Bilgiler',
+          'ingilizce': 'İngilizce',
+          'din': 'Din Kültürü'
+        };
+        
+        tipContent.textContent = `${subjectNames[weakestSubject]} dersinde zorlanıyorsun. Bu derse daha fazla zaman ayırmayı dene!`;
+      }
+    }
+
+    // Call updatePersonalTips when study data is saved
+    const originalSaveDailyData = saveDailyData;
+    saveDailyData = function() {
+      originalSaveDailyData();
+      updatePersonalTips();
+    };
+
+    // Add timer notification styles
+    const timerStyle = document.createElement('style');
+    timerStyle.textContent = `
+      .timer-notification {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: linear-gradient(135deg, var(--accent), var(--secondary));
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        animation: slideInLeft 0.5s ease-out;
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    `;
+    document.head.appendChild(timerStyle);
+  </script>
 </body>
 </html>

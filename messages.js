@@ -44,7 +44,7 @@ async function init() {
 async function loadUsers() {
   const { data, error } = await supabase
     .from('ogrenciler')
-    .select('user_id as id, ad, soyad, rol')
+    .select('user_id:id, ad, soyad, rol')  // ✅ HATA 1 burada düzeltildi
     .neq('user_id', currentUser.id);
 
   if (error) {
@@ -55,7 +55,7 @@ async function loadUsers() {
   aliciSelect.innerHTML = '<option value="">Mesaj göndermek için öğrenci veya koç seçiniz</option>';
   data.forEach(user => {
     const option = document.createElement('option');
-    option.value = user.id;
+    option.value = user.user_id;  // ✅ Düzeltildi: user.id yerine user.user_id
     option.textContent = `${(user.ad || '')} ${(user.soyad || '')} (${user.rol || 'bilinmiyor'})`.trim();
     aliciSelect.appendChild(option);
   });
@@ -64,6 +64,7 @@ async function loadUsers() {
 async function loadMessages() {
   if (!selectedRecipientId) return;
 
+  // ✅ Daha güvenli sorgu yaklaşımı
   const { data, error } = await supabase
     .from('messages')
     .select('*')

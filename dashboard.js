@@ -311,6 +311,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (userInfo.rol === 'koc') {
     document.getElementById('koc-panel').style.display = 'block';
+    document.getElementById('admin-btn').style.display = 'inline-block';
 
     const ogrenciSelect = document.getElementById('ogrenci-secim');
     const ogrenciler = await fetchOgrenciler();
