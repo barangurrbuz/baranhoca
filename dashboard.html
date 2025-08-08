@@ -5653,15 +5653,22 @@
       const tabContents = document.querySelectorAll('.tab-content');
       
       // Debug: Log all tabs and buttons
-      console.log('Found tab buttons:', tabButtons.length);
-      console.log('Found tab contents:', tabContents.length);
+      console.log('Found tab buttons:', tabButtons);
+      console.log('Found tab contents:', tabContents);
+      
+      // Debug: Check if goals tab exists
+      const goalsTab = document.getElementById('goals');
+      console.log('Goals tab element:', goalsTab);
+      if (goalsTab) {
+        console.log('Goals tab HTML:', goalsTab.outerHTML.substring(0, 500) + '...');
+      }
 
       // Show the first tab by default if none is active
       const activeTabs = document.querySelectorAll('.tab-content.active');
       if (activeTabs.length === 0 && tabContents.length > 0) {
+        console.log('No active tabs found, activating first tab');
         tabContents[0].classList.add('active');
         tabButtons[0].classList.add('active');
-        console.log('Activated first tab by default');
       }
 
       // Add click event listeners to tab buttons
