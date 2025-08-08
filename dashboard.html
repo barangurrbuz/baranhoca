@@ -4960,6 +4960,28 @@
       });
       
       console.log('🔍 DEBUG: Tab sistemi kuruldu!');
+      
+      // DOM TEST - Goals tab var mı?
+      setTimeout(() => {
+        const goalsTab = document.getElementById('goals');
+        console.log('🔍 DOM TEST: Goals tab bulundu mu?', !!goalsTab);
+        if (goalsTab) {
+          console.log('🔍 DOM TEST: Goals tab style:', goalsTab.style.cssText);
+          console.log('🔍 DOM TEST: Goals tab classList:', goalsTab.classList.toString());
+          console.log('🔍 DOM TEST: Goals tab innerHTML uzunluğu:', goalsTab.innerHTML.length);
+        } else {
+          console.error('🔍 DOM TEST: Goals tab DOM\'da YOK!');
+        }
+      }, 1000);
+      
+      // Tüm tab-content'leri listele
+      setTimeout(() => {
+        const allTabs = document.querySelectorAll('.tab-content');
+        console.log('🔍 DOM TEST: Toplam tab sayısı:', allTabs.length);
+        allTabs.forEach((tab, index) => {
+          console.log(`🔍 DOM TEST: Tab ${index} ID:`, tab.id, 'Class:', tab.className);
+        });
+      }, 1500);
     });
   </script>
 
