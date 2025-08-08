@@ -260,20 +260,22 @@
       display: block;
     }
     
-    /* Goals Tab Specific Styles - High Specificity Selector */
-    body #goals.tab-content {
-      display: none;
-      width: 100%;
-      min-height: 500px;
-      background: transparent;
-      padding: 1rem 0;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      position: relative;
-      z-index: 1;
+    /* Goals Tab Specific Styles - Force Display */
+    #goals.tab-content {
+      display: none !important;
+      width: 100% !important;
+      min-height: 500px !important;
+      background: transparent !important;
+      padding: 1rem 0 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      position: relative !important;
+      z-index: 9999 !important;
+      transition: opacity 0.3s ease !important;
+      pointer-events: auto !important;
     }
     
-    body #goals.tab-content.active {
+    #goals.tab-content.active {
       display: block !important;
       opacity: 1 !important;
       visibility: visible !important;
@@ -5685,6 +5687,26 @@
           tabButtons[0].classList.add('active');
         }
 
+        // Function to force show an element
+        function forceShow(element) {
+          if (!element) return;
+          
+          // Remove any conflicting inline styles
+          element.style.removeProperty('display');
+          element.style.removeProperty('opacity');
+          element.style.removeProperty('visibility');
+          element.style.removeProperty('height');
+          
+          // Force display
+          element.style.setProperty('display', 'block', 'important');
+          element.style.setProperty('opacity', '1', 'important');
+          element.style.setProperty('visibility', 'visible', 'important');
+          element.style.setProperty('height', 'auto', 'important');
+          
+          // Force reflow
+          void element.offsetWidth;
+        }
+
         // Function to switch tabs
         function switchTab(tabId) {
           console.log('Switching to tab:', tabId);
@@ -5692,9 +5714,9 @@
           // Hide all tab contents
           tabContents.forEach(content => {
             content.classList.remove('active');
-            content.style.display = 'none';
-            content.style.opacity = '0';
-            content.style.visibility = 'hidden';
+            content.style.setProperty('display', 'none', 'important');
+            content.style.setProperty('opacity', '0', 'important');
+            content.style.setProperty('visibility', 'hidden', 'important');
           });
           
           // Remove active class from all buttons
@@ -5707,23 +5729,26 @@
           if (selectedTab && selectedButton) {
             selectedButton.classList.add('active');
             
-            // Force reflow/repaint
-            void selectedTab.offsetWidth;
+            // Force show the selected tab
+            forceShow(selectedTab);
+            selectedTab.classList.add('active');
             
-            // Show the tab with a small delay
+            console.log('Tab switched to:', tabId);
+            
+            // Double check after a short delay
             setTimeout(() => {
-              selectedTab.style.display = 'block';
-              setTimeout(() => {
-                selectedTab.classList.add('active');
-                selectedTab.style.opacity = '1';
-                selectedTab.style.visibility = 'visible';
-                console.log('Tab switched to:', tabId);
-              }, 10);
-            }, 10);
+              console.log('Double checking tab visibility for:', tabId, {
+                display: window.getComputedStyle(selectedTab).display,
+                opacity: window.getComputedStyle(selectedTab).opacity,
+                visibility: window.getComputedStyle(selectedTab).visibility
+              });
+              
+              // Force show again to ensure it's visible
+              forceShow(selectedTab);
+            }, 100);
           } else {
             console.error('Tab or button not found:', tabId);
           }
-        }
         
         // Add click event listeners to tab buttons
         tabButtons.forEach(button => {
