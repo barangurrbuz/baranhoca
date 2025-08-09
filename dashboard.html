@@ -4993,63 +4993,41 @@
   <script>
     console.log('🔍 DEBUG: Script yükleniyor...');
     
-    // Tab functionality - Basit versiyon
+    // Tab functionality - GÜNCELLEME
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('🔍 DEBUG: DOM hazır!');
-      
       const tabBtns = document.querySelectorAll('.tab-btn');
       const tabContents = document.querySelectorAll('.tab-content');
-      
-      console.log('🔍 DEBUG: Tab butonları:', tabBtns.length);
-      console.log('🔍 DEBUG: Tab içerikleri:', tabContents.length);
 
-      tabBtns.forEach((btn, index) => {
-        console.log(`🔍 DEBUG: Tab ${index}:`, btn.getAttribute('data-tab'));
-        
-        btn.addEventListener('click', (e) => {
-          console.log('🔍 DEBUG: Tab tıklandı:', btn.getAttribute('data-tab'));
-          
+      tabBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
           const targetTab = btn.getAttribute('data-tab');
-          
-          // Remove active class from all tabs
+
+          // Tüm tab ve içeriklerden active class'ı kaldır
           tabBtns.forEach(b => b.classList.remove('active'));
           tabContents.forEach(c => c.classList.remove('active'));
-          
-          // Add active class to clicked tab
+
+          // Tıklanan butona ve ilgili içeriğe active class'ı ekle
           btn.classList.add('active');
           const targetElement = document.getElementById(targetTab);
           if (targetElement) {
             targetElement.classList.add('active');
-            console.log('🔍 DEBUG: Tab aktif edildi:', targetTab);
-          } else {
-            console.error('🔍 DEBUG: Tab bulunamadı:', targetTab);
+            // Özellikle goals sekmesi için: inline style'ları sıfırla
+            if(targetTab === 'goals') {
+              targetElement.style.removeProperty('display');
+              targetElement.style.removeProperty('opacity');
+              targetElement.style.removeProperty('visibility');
+              targetElement.style.removeProperty('height');
+            }
           }
         });
       });
-      
-      console.log('🔍 DEBUG: Tab sistemi kuruldu!');
-      
-      // DOM TEST - Goals tab var mı?
-      setTimeout(() => {
-        const goalsTab = document.getElementById('goals');
-        console.log('🔍 DOM TEST: Goals tab bulundu mu?', !!goalsTab);
-        if (goalsTab) {
-          console.log('🔍 DOM TEST: Goals tab style:', goalsTab.style.cssText);
-          console.log('🔍 DOM TEST: Goals tab classList:', goalsTab.classList.toString());
-          console.log('🔍 DOM TEST: Goals tab innerHTML uzunluğu:', goalsTab.innerHTML.length);
-        } else {
-          console.error('🔍 DOM TEST: Goals tab DOM\'da YOK!');
-        }
-      }, 1000);
-      
-      // Tüm tab-content'leri listele
-      setTimeout(() => {
-        const allTabs = document.querySelectorAll('.tab-content');
-        console.log('🔍 DOM TEST: Toplam tab sayısı:', allTabs.length);
-        allTabs.forEach((tab, index) => {
-          console.log(`🔍 DOM TEST: Tab ${index} ID:`, tab.id, 'Class:', tab.className);
-        });
-      }, 1500);
+
+      // Sayfa ilk açıldığında bir tab aktif değilse ilkini aktif yap
+      const activeTabs = document.querySelectorAll('.tab-content.active');
+      if (activeTabs.length === 0 && tabContents.length > 0) {
+        tabContents[0].classList.add('active');
+        tabBtns[0].classList.add('active');
+      }
     });
   </script>
 
